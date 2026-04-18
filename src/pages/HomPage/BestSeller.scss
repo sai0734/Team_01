@@ -1,0 +1,72 @@
+.bestseller-container {
+  max-width: 1000px; // 5개가 들어가기에 충분한 너비 설정
+  margin: 60px auto; // 위아래 여백 및 좌우 가운데 정렬
+  text-align: center; // 제목(h2) 가운데 정렬
+
+  h2 {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    color: #333;
+  }
+
+  .bestseller-list {
+    display: grid;
+    // [핵심] 한 줄에 5개씩(1fr씩 5개) 똑같은 크기로 배치
+    grid-template-columns: repeat(5, 1fr);
+    gap: 25px; // 아이템 사이의 간격
+    justify-items: center; // 아이템들을 그리드 칸 안에서 가운데 정렬
+
+    .bestseller-item {
+      width: 150px; // 아이템 너비 살짝 조절
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      transition: all 0.3s ease;
+
+      &:hover {
+        transform: translateY(-8px);
+
+        img {
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+      }
+
+      img {
+        width: 100%;
+        height: 210px; // 비율에 맞게 높이 조절
+        object-fit: cover;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .book-info {
+        margin-top: 12px;
+
+        .title {
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2; // 크롬, 사파리 등을 위한 코드
+          line-clamp: 2;
+          overflow: hidden;
+          line-height: 1.4;
+          height: 2.8em;
+        }
+
+        .author {
+          font-size: 13px;
+          color: #777;
+          margin-top: 4px;
+        }
+      }
+    }
+  }
+}
+
+// [추가] 모바일 대응: 화면이 작아지면 2개씩 나오도록 설정
+@media (max-width: 768px) {
+  .bestseller-container {
+    .bestseller-list {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
