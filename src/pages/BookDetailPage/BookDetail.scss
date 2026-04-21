@@ -1,6 +1,6 @@
 .book-detail-container {
   padding: 20px;
-  maxwidth: 1000px;
+  max-width: 1000px;
   margin: 0 auto;
   font-family: "Pretendard", sans-serif;
 
@@ -26,6 +26,11 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
       object-fit: cover;
       align-self: flex-start;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: translateY(-5px);
+      }
     }
 
     .info-box {
@@ -61,10 +66,10 @@
             font-size: 1.5rem;
             cursor: pointer;
             transition: color 0.2s;
-            color: #ddd; // 기본 색상
+            color: #ddd;
 
             &.active {
-              color: #ffd700; // 활성화 색상
+              color: #ffd700;
             }
           }
         }
@@ -117,6 +122,11 @@
 
     .grid-item {
       text-align: center;
+      transition: opacity 0.2s;
+
+      &:hover {
+        opacity: 0.8;
+      }
 
       .grid-img {
         width: 100%;
@@ -134,6 +144,7 @@
         color: #333;
         display: -webkit-box;
         -webkit-line-clamp: 2;
+        line-clamp: 2; // 추가된 표준 속성
         -webkit-box-orient: vertical;
         overflow: hidden;
       }

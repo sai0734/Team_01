@@ -39,7 +39,9 @@
     }
 
     .btn-box {
-      text-align: right;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
 
       .save-btn {
         background-color: #000;
@@ -54,6 +56,22 @@
 
         &:hover {
           opacity: 0.8;
+        }
+      }
+
+      .cancel-btn {
+        background-color: #ccc;
+        color: #333;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: background 0.2s;
+
+        &:hover {
+          background-color: #bbb;
         }
       }
     }
@@ -85,6 +103,7 @@
           margin-right: 20px;
           line-height: 1.5;
           word-break: break-all;
+          white-space: pre-wrap; // 줄바꿈(엔터)이 화면에 보이게 설정
         }
 
         .action-btns {

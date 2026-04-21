@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./MemoSection.scss"; // SCSS 파일 임포트
+import "./MemoSection.scss";
 
 const MemoSection = () => {
   const [text, setText] = useState("");
@@ -7,7 +7,7 @@ const MemoSection = () => {
   const [editingId, setEditingId] = useState(null);
 
   const handleSave = () => {
-    if (!text.trim()) return; // 빈 메모 저장 방지
+    if (!text.trim()) return;
 
     if (editingId) {
       setMemos(
@@ -23,6 +23,11 @@ const MemoSection = () => {
   const handleEditInit = (memo) => {
     setEditingId(memo.id);
     setText(memo.content);
+  };
+
+  const handleCancel = () => {
+    setEditingId(null);
+    setText("");
   };
 
   const handleDelete = (id) => {
@@ -46,6 +51,11 @@ const MemoSection = () => {
           onChange={(e) => setText(e.target.value)}
         />
         <div className="btn-box">
+          {editingId && (
+            <button className="cancel-btn" onClick={handleCancel}>
+              취소
+            </button>
+          )}
           <button className="save-btn" onClick={handleSave}>
             {editingId ? "메모 수정 완료" : "메모 저장하기"}
           </button>
