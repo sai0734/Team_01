@@ -8,8 +8,8 @@ const StatsPage = lazy(() => import("./pages/StatsPage"));
 const MyPage = lazy(() => import("./pages/MyPage"));
 // const Profile = lazy(() => import("./pages"));
 // const Library = lazy(() => import("./pages"));
-const Books = lazy(() => import("./pages/Books"));
-const Book = lazy(() => import("./pages/BookDetailPage"));
+// const Books = lazy(() => import("./pages/Books"));
+// const Book = lazy(() => import("./pages/BookDetailPage"));
 const Login = lazy(() => import("./pages/Login"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
@@ -25,9 +25,9 @@ const App = () => {
           <Route path="library" element={<Library />} /> */}
           <Route path="statistics" element={<StatsPage />} />
         </Route>
-        <Route path="/books" element={<Books />}>
+        {/* <Route path="/books" element={<Books />}>
           <Route path=":id" element={<Book />} />
-        </Route>
+        </Route> */}
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
