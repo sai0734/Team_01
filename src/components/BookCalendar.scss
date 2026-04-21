@@ -1,0 +1,112 @@
+// 변수 설정 (색상 및 둥글기)
+$primary-color: #3b82f6; // 포인트 블루
+$bg-color: #ffffff;
+$text-color: #1f2937;
+$gray-light: #f3f4f6;
+$gray-medium: #9ca3af;
+$border-radius: 12px;
+
+.react-calendar {
+  width: 350px;
+  max-width: 100%;
+  height: 600px;
+  background: $bg-color;
+  border: 1px solid $gray-light;
+  border-radius: $border-radius;
+  font-family: "Pretendard", sans-serif;
+  padding: 10px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+
+  // 상단 네비게이션 (월/년 이동)
+  &__navigation {
+    display: flex;
+    height: 44px;
+    margin-bottom: 10px;
+
+    button {
+      min-width: 44px;
+      background: none;
+      border: none;
+      font-size: 16px;
+      font-weight: 600;
+      color: $text-color;
+      cursor: pointer;
+      border-radius: 8px;
+
+      &:hover {
+        background-color: $gray-light;
+      }
+
+      &:disabled {
+        background-color: transparent;
+        color: $gray-medium;
+      }
+    }
+  }
+
+  // 요일 표시 (월화수목금토일)
+  &__month-view__weekdays {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 0.75rem;
+    color: $gray-medium;
+    padding-bottom: 10px;
+
+    abbr {
+      text-decoration: none;
+    }
+  }
+
+  // 날짜 타일
+  &__tile {
+    display: flex;
+    align-items: flex-start;
+    max-width: 100%;
+    height: 100px;
+    padding: 12px 6.6667px;
+    background: none;
+    border: none;
+    text-align: center;
+    line-height: 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: $text-color;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: $gray-light;
+    }
+
+    // 오늘 날짜
+    &--now {
+      background: $gray-light;
+      color: $primary-color;
+      font-weight: 700;
+    }
+
+    // 선택된 날짜
+    &--active {
+      background: $primary-color !important;
+      color: white !important;
+      font-weight: 700;
+      box-shadow: 0 4px 10px rgba($primary-color, 0.3);
+    }
+
+    // 이번 달이 아닌 날짜
+    &--neighboringMonth {
+      color: $gray-medium;
+      opacity: 0.5;
+    }
+  }
+
+  // 일요일 색상 강조 (선택사항)
+  &__month-view__days__day--weekend {
+    color: #ef4444;
+    &.react-calendar__tile--neighboringMonth {
+      color: #ef4444;
+    }
+  }
+}
