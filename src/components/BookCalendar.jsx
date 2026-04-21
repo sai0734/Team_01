@@ -5,7 +5,7 @@ import "./BookCalendar.scss";
 const BookCalendar = () => {
   return (
     <div>
-      <Calendar />
+      <Calendar calendarType="gregory" />
     </div>
   );
 };
