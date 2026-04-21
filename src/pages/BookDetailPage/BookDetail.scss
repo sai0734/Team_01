@@ -1,0 +1,142 @@
+.book-detail-container {
+  padding: 20px;
+  maxwidth: 1000px;
+  margin: 0 auto;
+  font-family: "Pretendard", sans-serif;
+
+  .loading-box {
+    padding: 100px 0;
+    text-align: center;
+    font-size: 1.2rem;
+    color: #666;
+  }
+
+  .header-section {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .main-img {
+      width: 260px;
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      object-fit: cover;
+      align-self: flex-start;
+    }
+
+    .info-box {
+      flex: 1 1 320px;
+      min-width: 300px;
+
+      .title {
+        font-size: clamp(1.5rem, 5vw, 2.2rem);
+        font-weight: 800;
+        color: #1a1a1a;
+        margin: 0 0 15px 0;
+        line-height: 1.2;
+      }
+
+      .meta-info {
+        color: #666;
+        font-size: 1.05rem;
+        line-height: 1.6;
+        margin-bottom: 10px;
+      }
+
+      .rating-section {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 15px;
+
+        .star-container {
+          display: flex;
+          gap: 5px;
+
+          .star {
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s;
+            color: #ddd; // 기본 색상
+
+            &.active {
+              color: #ffd700; // 활성화 색상
+            }
+          }
+        }
+
+        .rating-text {
+          font-size: 1rem;
+          color: #333;
+          font-weight: 600;
+        }
+      }
+
+      .divider {
+        height: 1px;
+        background-color: #eee;
+        margin: 25px 0;
+      }
+
+      .contents {
+        line-height: 1.8;
+        color: #444;
+        font-size: 1.05rem;
+        text-align: justify;
+
+        .more-btn {
+          background: none;
+          border: none;
+          color: #007bff;
+          cursor: pointer;
+          padding: 0 5px;
+          font-weight: bold;
+          font-size: 0.95rem;
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  .sub-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    border-left: 6px solid #000;
+    padding-left: 15px;
+    margin-bottom: 30px;
+  }
+
+  .book-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 20px;
+
+    .grid-item {
+      text-align: center;
+
+      .grid-img {
+        width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 10px;
+        aspect-ratio: 2 / 3;
+        object-fit: cover;
+      }
+
+      .grid-title {
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 1.4;
+        color: #333;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    }
+  }
+}
