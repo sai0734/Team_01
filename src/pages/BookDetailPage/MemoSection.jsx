@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import "./MemoSection.scss";
+import useStore from "../Store/store";
 
 const MemoSection = () => {
   const [text, setText] = useState("");
   const [memos, setMemos] = useState([]);
   const [editingId, setEditingId] = useState(null);
+
+  // 스토어에서 해당 함수들 가져오기
+  const { booksList, addMemo, removeMemo } = useStore();
 
   const handleSave = () => {
     if (!text.trim()) return;
