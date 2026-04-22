@@ -9,7 +9,6 @@ const SearchPage = () => {
 
   return (
     <div>
-      <SearchHeader />
       {/* 검색 목록 */}
       <div className="book_list_container">
         {bookList ? (
