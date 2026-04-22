@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import SearchHeader from "../components/SearchHeader";
 import { useLocation } from "react-router-dom";
+import BookModal from "../components/BookModal";
 
 const SearchPage = () => {
   const location = useLocation();
 
   const bookList = location.state;
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   return (
     <div>
@@ -111,9 +120,15 @@ const SearchPage = () => {
                     border: "none",
                     borderRadius: "4px",
                   }}
+                  onClick={openModal}
                 >
-                  내 서재에 추가
+                  도서 상세페이지
                 </button>
+                <BookModal
+                  open={modalOpen}
+                  close={closeModal}
+                  header="header"
+                />
               </div>
             </article>
           ))
