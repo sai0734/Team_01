@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import useStore from "../Store/store"; // 경로 확인 필요!
 import "./MyPage.scss";
 import { Link } from "react-router-dom";
+import BookCalendar from "../../components/BookCalendar";
 
 const MyPage = () => {
   const { booksList } = useStore();
@@ -105,6 +106,7 @@ const MyPage = () => {
           <div className="shelf-content">{renderBookGrid(readBooks)}</div>
         )}
       </section>
+      <BookCalendar />
     </div>
   );
 };
