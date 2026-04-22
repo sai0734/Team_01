@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import useStore from "../Store/store"; // 경로 확인 필요!
 import "./MyPage.scss";
 import { Link } from "react-router-dom";
+import BookCalendar from "../../components/BookCalendar";
 
 const MyPage = () => {
   const { booksList } = useStore();
+
+  //AI (제미나이님이...)
 
   // 각 섹션의 펼침/닫힘 상태 관리
   const [openSections, setOpenSections] = useState({
@@ -105,6 +108,7 @@ const MyPage = () => {
           <div className="shelf-content">{renderBookGrid(readBooks)}</div>
         )}
       </section>
+      <BookCalendar />
     </div>
   );
 };
