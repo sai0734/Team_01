@@ -1,6 +1,7 @@
 import { create } from "zustand";
+import axios from "axios";
 
-const useStore = create((set) => ({
+const useStore = create((set, get) => ({
   // 1. 상태 (state)
   booksList: [],
 
@@ -94,6 +95,47 @@ const useStore = create((set) => ({
           : book,
       ),
     })),
+
+  // AI와의 대화 (제미나이님이 만들어 주심)
+  analyzeReadingHabits: async () => {
+    const { booksList } = get();
+
+    if (booksList.length === 0)
+      return "분석할 책이 없습니다. 서재에 책을 먼저 추가해주세요!";
+
+    // 1. 데이터 가공: 제목, 상태, 메모 내용을 AI가 이해하기 쉽게 정리
+    const bookContext = booksList
+      .map((b) => {
+        const memoText =
+          b.memos.length > 0
+            ? b.memos.map((m) => m.content).join(", ")
+            : "기록된 메모 없음";
+        return `- 제목: ${b.title}\n  상태: ${b.status}\n  나의 생각: ${memoText}`;
+      })
+      .join("\n\n");
+
+    try {
+      const response = await axios.post(
+        "http://127.0.0.1:8000/api/chat-search",
+        {
+          // 프롬프트에 '역할'을 부여하여 더 전문적인 답변 유도
+          message: `당신은 독서 심리 전문가입니다. 아래의 독서 목록과 메모를 바탕으로 이 사용자의 지적 취향, 성격, 현재의 관심사를 심도 있게 분석해주세요. 
+          따뜻하고 통찰력 있는 말투로 작성해주시고, 분석 마지막에는 이 사용자가 좋아할 만한 새로운 도서 분야도 하나 추천해주세요.\n\n[독서 목록]\n${bookContext}`,
+          max_results: 1,
+        },
+      );
+
+      // 서버 응답 반환
+      return (
+        response.data.answer ||
+        response.data.response ||
+        "분석 결과를 가져왔으나 내용이 비어있습니다."
+      );
+    } catch (error) {
+      console.error("AI 분석 에러 상세:", error);
+      return "AI가 서재를 분석하는 도중 오류가 발생했습니다. 파이썬 서버와 Ollama가 켜져 있는지 확인해주세요!";
+    }
+  },
 }));
 
 export default useStore;

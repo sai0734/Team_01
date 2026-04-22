@@ -7,6 +7,8 @@ import BookCalendar from "../../components/BookCalendar";
 const MyPage = () => {
   const { booksList } = useStore();
 
+  //AI (제미나이님이...)
+
   // 각 섹션의 펼침/닫힘 상태 관리
   const [openSections, setOpenSections] = useState({
     unread: true, // 안 읽은 책 (기본값: 열림)
