@@ -2,25 +2,30 @@ import React, { useState } from "react";
 import "./MemoSection.scss";
 import useStore from "../Store/store";
 
-const MemoSection = () => {
+const MemoSection = ({ isbn }) => {
   const [text, setText] = useState("");
-  const [memos, setMemos] = useState([]);
   const [editingId, setEditingId] = useState(null);
 
   // 스토어에서 해당 함수들 가져오기
   const { booksList, addMemo, removeMemo } = useStore();
 
+  // find 함수는 주어진 배열에서 콜백 함수의 조건을 만족하는 첫 번째 요소를 반환
+  // 즉 props로 받아온 isbn값이 store의 서재에 있는지 확인하고 있으면 currentBook에 담는다.
+  const currentBook = booksList.find((b) => b.isbn === isbn);
+  // currentBook에 즉 서재에 책이 담겨있으면 거기서 memos 배열을 불러오고 아니면 빈배열
+  const memos = currentBook ? currentBook.memos : [];
+
   const handleSave = () => {
+    // text 즉 내용이 비어있다면 중단
     if (!text.trim()) return;
 
-    if (editingId) {
-      setMemos(
-        memos.map((m) => (m.id === editingId ? { ...m, content: text } : m)),
-      );
-      setEditingId(null);
-    } else {
-      setMemos([...memos, { id: Date.now(), content: text }]);
+    if (!currentBook) {
+      alert("먼저 '내 서재에 담기'를 눌러주세요.");
+      return;
     }
+
+    addMemo(isbn, editingId, text);
+    setEditingId(null);
     setText("");
   };
 
@@ -35,8 +40,9 @@ const MemoSection = () => {
   };
 
   const handleDelete = (id) => {
-    if (window.confirm("메모를 삭제하시겠습니까?")) {
-      setMemos(memos.filter((m) => m.id !== id));
+    if (window.confirm("메모를 정말 삭제하시겠습니까?")) {
+      removeMemo(isbn, id);
+
       if (editingId === id) {
         setEditingId(null);
         setText("");
@@ -53,6 +59,8 @@ const MemoSection = () => {
           placeholder="이 책에 대한 생각을 자유롭게 남겨보세요."
           value={text}
           onChange={(e) => setText(e.target.value)}
+          // booksList에 없으면 비활성화
+          disabled={!currentBook}
         />
         <div className="btn-box">
           {editingId && (

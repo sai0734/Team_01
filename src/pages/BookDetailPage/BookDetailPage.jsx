@@ -2,10 +2,12 @@ import BookDetail from "./BookDetail";
 import MemoSection from "./MemoSection";
 import { useSearchParams } from "react-router-dom";
 
-const BookDetailPage = () => {
+const BookDetailPage = ({ header }) => {
   const [searchParams] = useSearchParams();
 
-  const isbn = searchParams.get("isbn");
+  const isbn = header || searchParams.get("isbn");
+
+  console.log(isbn);
 
   return (
     <div>

@@ -3,7 +3,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import "./BookDetail.scss";
 import useStore from "../Store/store";
 
-const BookDetail = () => {
+const BookDetail = ({ isbn }) => {
   const [selectedBook, setSelectedBook] = useState(null);
   const [authorBooks, setAuthorBooks] = useState([]);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -24,19 +24,19 @@ const BookDetail = () => {
 
   const fetchBookData = useCallback(async () => {
     try {
-      const loc = location.href;
-      const isbn = loc.substring(loc.indexOf("=") + 1);
-      console.log(location);
+      // const loc = location.href;
+      // const isbn = loc.substring(loc.indexOf("=") + 1);
+      // console.log(location);
 
       const response01 = await axios.get(
         "https://dapi.kakao.com/v3/search/book",
         {
           params: {
-            query: "지옥",
+            query: isbn.toString().split(" ")[0],
             sort: "accuracy",
             page: 1,
             size: 1,
-            // target: "isbn",
+            target: "isbn",
           },
           headers: { Authorization: KAKAO_KEY },
         },
@@ -50,7 +50,12 @@ const BookDetail = () => {
         const response02 = await axios.get(
           "https://dapi.kakao.com/v3/search/book",
           {
-            params: { query: authorName, sort: "accuracy", page: 1, size: 10 },
+            params: {
+              query: authorName,
+              sort: "accuracy",
+              page: 1,
+              size: 10,
+            },
             headers: { Authorization: KAKAO_KEY },
           },
         );
@@ -64,7 +69,7 @@ const BookDetail = () => {
     } catch (e) {
       console.error("데이터를 가져오는 중 에러가 발생했습니다: ", e);
     }
-  }, []);
+  }, [isbn]);
 
   useEffect(() => {
     fetchBookData();
