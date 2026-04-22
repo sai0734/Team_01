@@ -24,6 +24,9 @@ const Home = () => {
         </section>
         {/* 로그인 */}
         <Link to="/login">로그인</Link>
+        <section className="section">
+          <Link to="/book">상세페이지</Link>
+        </section>
       </main>
     </div>
   );
