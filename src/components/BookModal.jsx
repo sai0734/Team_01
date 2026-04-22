@@ -12,7 +12,7 @@ const BookModal = ({ open, close, header }) => {
               X
             </button>
           </div>
-          <BookDetailPage />
+          <BookDetailPage header={header} />
         </section>
       ) : null}
     </div>

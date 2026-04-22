@@ -127,7 +127,7 @@ const SearchPage = () => {
                 <BookModal
                   open={modalOpen}
                   close={closeModal}
-                  header="header"
+                  header={book.isbn}
                 />
               </div>
             </article>
