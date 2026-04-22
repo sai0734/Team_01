@@ -14,7 +14,7 @@ const Home = () => {
       <main className="home-main">
         {/* 추천 */}
         <section className="section">
-          추천도서 섹션
+          <Link to="/recommend">추천도서 섹션</Link>
           {/* <Recommend /> */}
         </section>
         {/* 서재 + 통계 */}
