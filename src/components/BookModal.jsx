@@ -1,18 +1,21 @@
 import React, { Children, useState } from "react";
 import "./BookModal.scss";
 import BookDetailPage from "../pages/BookDetailPage/BookDetailPage";
+import useModalStore from "../pages/Store/modal";
 
-const BookModal = ({ isModalOpen, close, header }) => {
+const BookModal = ({ header }) => {
+  const { isOpen, openModal, closeModal } = useModalStore();
+
   return (
-    <div className={isModalOpen ? "openModal modal" : "modal"}>
-      {isModalOpen ? (
+    <div className={isOpen ? "openModal modal" : "modal"}>
+      {isOpen ? (
         <section className="scrollAllow">
           <div className="modalHeader">
-            <button className="modalClose" onClick={close}>
+            <button className="modalClose" onClick={closeModal}>
               X
             </button>
           </div>
-          <BookDetailPage header={header} />
+          <BookDetailPage header={header.isbn} />
         </section>
       ) : null}
     </div>

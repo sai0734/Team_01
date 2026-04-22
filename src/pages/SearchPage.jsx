@@ -2,45 +2,40 @@ import React, { useEffect, useState } from "react";
 import SearchHeader from "../components/SearchHeader";
 import { useLocation } from "react-router-dom";
 import BookModal from "../components/BookModal";
+import useModalStore from "./Store/modal";
 
 const SearchPage = () => {
   const location = useLocation();
 
   const bookList = location.state;
 
-  const [selectedBook, setSelectedBook] = useState(null);
+  const [selectedBook, setSelectedBook] = useState({ isbn: "" });
 
-  const [isModalOpen, setModalOpen] = useState(false);
-  const openModal = () => {
-    setModalOpen(true);
+  const { isOpen, openModal, closeModal } = useModalStore();
+
+  const preventScroll = (e) => {
+    if (e.target.closest(".scrollAllow")) return;
+    e.preventDefault();
   };
-  const closeModal = () => {
-    setModalOpen(false);
-  };
 
-  // useEffect(() => {
-  //   if (!isModalOpen) return;
+  useEffect(() => {
+    console.log(isOpen);
 
-  //   const preventScroll = (e) => {
-  //     if (e.target.closest(".scrollAllow")) return;
-  //     e.preventDefault();
-  //   };
-
-  //   document.addEventListener("wheel", preventScroll, { passive: false });
-  //   document.body.style.overflow = "hidden";
-
-  //   return () => {
-  //     document.removeEventListener("wheel", preventScroll);
-  //   };
-  // }, [isModalOpen]);
+    if (!isOpen) {
+      document.removeEventListener("wheel", preventScroll);
+      document.body.style.overflow = "auto";
+      console.log("b");
+    } else {
+      document.addEventListener("wheel", preventScroll, { passive: false });
+      document.body.style.overflow = "hidden";
+      console.log("a");
+    }
+  }, [isOpen]);
 
   return (
     <div>
-      <BookModal
-        isModalOpen={isModalOpen}
-        close={closeModal}
-        header={selectedBook}
-      />
+      {/* 도서 상세페이지 팝업창 */}
+      <BookModal header={selectedBook} />
       {/* 검색 목록 */}
       <div className="book_list_container">
         {bookList ? (
@@ -143,7 +138,7 @@ const SearchPage = () => {
                     border: "none",
                     borderRadius: "4px",
                   }}
-                  onClick={(book) => {
+                  onClick={() => {
                     openModal();
                     setSelectedBook(book);
                   }}
