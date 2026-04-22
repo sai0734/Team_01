@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState, useCallback } from "react";
 import "./BookDetail.scss";
 import useStore from "../Store/store";
+import { Link } from "react-router-dom";
 
 const BookDetail = ({ isbn }) => {
   const [selectedBook, setSelectedBook] = useState(null);
@@ -103,6 +104,9 @@ const BookDetail = ({ isbn }) => {
     }
   };
 
+  console.log(selectedBook);
+  console.log(booksList);
+
   return (
     <div className="book-detail-container">
       <section className="header-section">
@@ -202,11 +206,7 @@ const BookDetail = ({ isbn }) => {
           {authorBooks.length > 0 ? (
             authorBooks.map((book, idx) => (
               <div key={book.isbn || idx} className="grid-item">
-                <a
-                  href={"/?isbn=" + book.isbn.substring(0, 10)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <Link to={`/book?isbn=${book.isbn}`}>
                   <img
                     src={
                       book.thumbnail ||
@@ -215,7 +215,7 @@ const BookDetail = ({ isbn }) => {
                     alt={book.title}
                     className="grid-img"
                   />
-                </a>
+                </Link>
                 <p className="grid-title">{book.title}</p>
               </div>
             ))

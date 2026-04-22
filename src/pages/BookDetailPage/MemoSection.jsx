@@ -3,6 +3,7 @@ import "./MemoSection.scss";
 import useStore from "../Store/store";
 
 const MemoSection = ({ isbn }) => {
+  // textarea에 적은 value값이 text에 저장
   const [text, setText] = useState("");
   const [editingId, setEditingId] = useState(null);
 
@@ -12,6 +13,7 @@ const MemoSection = ({ isbn }) => {
   // find 함수는 주어진 배열에서 콜백 함수의 조건을 만족하는 첫 번째 요소를 반환
   // 즉 props로 받아온 isbn값이 store의 서재에 있는지 확인하고 있으면 currentBook에 담는다.
   const currentBook = booksList.find((b) => b.isbn === isbn);
+
   // currentBook에 즉 서재에 책이 담겨있으면 거기서 memos 배열을 불러오고 아니면 빈배열
   const memos = currentBook ? currentBook.memos : [];
 
