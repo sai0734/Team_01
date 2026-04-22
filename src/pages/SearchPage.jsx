@@ -8,6 +8,8 @@ const SearchPage = () => {
 
   const bookList = location.state;
 
+  const [selectedBook, setSelectedBook] = useState(null);
+
   const [isModalOpen, setModalOpen] = useState(false);
   const openModal = () => {
     setModalOpen(true);
@@ -16,21 +18,29 @@ const SearchPage = () => {
     setModalOpen(false);
   };
 
-  // const preventScroll = (e) => {
-  //   e.preventDefault();
-  // };
   // useEffect(() => {
-  //   const { body } = document;
-  //   if (isModalOpen) {
-  //     body.addEventListener("wheel", preventScroll, { passive: false });
-  //   }
+  //   if (!isModalOpen) return;
+
+  //   const preventScroll = (e) => {
+  //     if (e.target.closest(".scrollAllow")) return;
+  //     e.preventDefault();
+  //   };
+
+  //   document.addEventListener("wheel", preventScroll, { passive: false });
+  //   document.body.style.overflow = "hidden";
+
   //   return () => {
-  //     body.removeEventListener("wheel", preventScroll);
+  //     document.removeEventListener("wheel", preventScroll);
   //   };
   // }, [isModalOpen]);
 
   return (
     <div>
+      <BookModal
+        isModalOpen={isModalOpen}
+        close={closeModal}
+        header={selectedBook}
+      />
       {/* 검색 목록 */}
       <div className="book_list_container">
         {bookList ? (
@@ -133,15 +143,13 @@ const SearchPage = () => {
                     border: "none",
                     borderRadius: "4px",
                   }}
-                  onClick={openModal}
+                  onClick={(book) => {
+                    openModal();
+                    setSelectedBook(book);
+                  }}
                 >
                   도서 상세페이지
                 </button>
-                <BookModal
-                  isModalOpen={isModalOpen}
-                  close={closeModal}
-                  header={book.isbn}
-                />
               </div>
             </article>
           ))

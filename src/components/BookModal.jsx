@@ -6,7 +6,7 @@ const BookModal = ({ isModalOpen, close, header }) => {
   return (
     <div className={isModalOpen ? "openModal modal" : "modal"}>
       {isModalOpen ? (
-        <section>
+        <section className="scrollAllow">
           <div className="modalHeader">
             <button className="modalClose" onClick={close}>
               X
