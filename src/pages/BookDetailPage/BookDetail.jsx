@@ -1,23 +1,43 @@
 import axios from "axios";
 import React, { useEffect, useState, useCallback } from "react";
 import "./BookDetail.scss";
+import useStore from "../Store/store";
 
 const BookDetail = () => {
   const [selectedBook, setSelectedBook] = useState(null);
   const [authorBooks, setAuthorBooks] = useState([]);
-  const [rating, setRating] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // 카카오 REST API 키
+  // Zustand 스토어 연동 (updateRating 추가)
+  const { booksList, addBook, bookState, readbook, removeBook, updateRating } =
+    useStore();
+
+  // 현재 책이 서재에 있는지 확인
+  const currentBookInStore = booksList.find(
+    (item) => item.isbn === selectedBook?.isbn,
+  );
+
+  // 화면에 표시할 별점 (서재에 있으면 스토어 값, 없으면 0)
+  const displayRating = currentBookInStore ? currentBookInStore.rating : 0;
+
   const KAKAO_KEY = "KakaoAK 895559b4f45cd858c4fcd679aa17c38b";
 
   const fetchBookData = useCallback(async () => {
     try {
-      // 1. 메인 도서 검색 (쿼리: "지옥")
+      const loc = location.href;
+      const isbn = loc.substring(loc.indexOf("=") + 1);
+      console.log(location);
+
       const response01 = await axios.get(
         "https://dapi.kakao.com/v3/search/book",
         {
-          params: { query: "지옥", sort: "accuracy", page: 1, size: 1 },
+          params: {
+            query: "지옥",
+            sort: "accuracy",
+            page: 1,
+            size: 1,
+            // target: "isbn",
+          },
           headers: { Authorization: KAKAO_KEY },
         },
       );
@@ -25,23 +45,16 @@ const BookDetail = () => {
       const mainBook = response01.data.documents[0];
       setSelectedBook(mainBook);
 
-      // 2. 해당 도서의 첫 번째 저자로 다른 도서 검색
       if (mainBook && mainBook.authors.length > 0) {
         const authorName = mainBook.authors[0];
         const response02 = await axios.get(
           "https://dapi.kakao.com/v3/search/book",
           {
-            params: {
-              query: authorName,
-              sort: "accuracy",
-              page: 1,
-              size: 10,
-            },
+            params: { query: authorName, sort: "accuracy", page: 1, size: 10 },
             headers: { Authorization: KAKAO_KEY },
           },
         );
 
-        // 현재 페이지에 보여지는 메인 도서는 리스트에서 제외
         const filteredBooks = response02.data.documents
           .filter((book) => book.isbn !== mainBook.isbn)
           .slice(0, 6);
@@ -57,7 +70,6 @@ const BookDetail = () => {
     fetchBookData();
   }, [fetchBookData]);
 
-  // 로딩 상태 처리
   if (!selectedBook) {
     return (
       <div className="book-detail-container">
@@ -66,14 +78,28 @@ const BookDetail = () => {
     );
   }
 
-  // 텍스트 줄임 처리 로직
+  // 별점 클릭 핸들러
+  const handleRatingClick = (num) => {
+    if (!currentBookInStore) {
+      alert("먼저 '내 서재에 담기'를 눌러주세요!");
+      return;
+    }
+    const newRating = displayRating === num ? 0 : num;
+    updateRating(selectedBook.isbn, newRating);
+  };
+
   const fullText = selectedBook.contents || "상세 설명이 없습니다.";
   const shortText = fullText.substring(0, 100);
   const isLongText = fullText.length > 100;
 
+  const handleRemove = () => {
+    if (window.confirm("이 책을 서재에서 삭제하시겠습니까?")) {
+      removeBook(selectedBook.isbn);
+    }
+  };
+
   return (
     <div className="book-detail-container">
-      {/* 상단: 책 상세 정보 섹션 */}
       <section className="header-section">
         <a href={selectedBook.url} target="_blank" rel="noopener noreferrer">
           <img
@@ -90,27 +116,67 @@ const BookDetail = () => {
             <strong>출판사:</strong> {selectedBook.publisher}
           </p>
 
-          {/* 별점 선택 영역 */}
+          {/* 별점 선택 영역 - 스토어와 연결됨 */}
           <div className="rating-section">
             <div className="star-container">
               {[1, 2, 3, 4, 5].map((num) => (
                 <span
                   key={num}
-                  className={`star ${num <= rating ? "active" : ""}`}
-                  onClick={() => setRating(rating === num ? 0 : num)}
+                  className={`star ${num <= displayRating ? "active" : ""}`}
+                  onClick={() => handleRatingClick(num)}
                 >
                   ★
                 </span>
               ))}
             </div>
             <span className="rating-text">
-              {rating > 0 ? `${rating}점` : "별점을 선택해주세요"}
+              {displayRating > 0 ? `${displayRating}점` : "별점을 선택해주세요"}
             </span>
+          </div>
+
+          <div className="store-control-section">
+            {!currentBookInStore ? (
+              <button className="add-btn" onClick={() => addBook(selectedBook)}>
+                내 서재에 담기
+              </button>
+            ) : (
+              <div className="edit-controls">
+                <div className="control-group">
+                  <label>독서 상태</label>
+                  <select
+                    value={currentBookInStore.status}
+                    onChange={(e) =>
+                      bookState(selectedBook.isbn, e.target.value)
+                    }
+                  >
+                    <option value="안 읽은 책">안 읽은 책</option>
+                    <option value="읽고 있는 책">읽고 있는 책</option>
+                    <option value="읽은 책">읽은 책</option>
+                  </select>
+                </div>
+                <div className="control-group">
+                  <label>읽은 날짜</label>
+                  <input
+                    type="date"
+                    value={currentBookInStore.readDate || ""}
+                    disabled={currentBookInStore.status !== "읽은 책"}
+                    onChange={(e) =>
+                      readbook(selectedBook.isbn, e.target.value)
+                    }
+                  />
+                </div>
+                <div className="status-group">
+                  <span className="status-badge-btn">서재 보관 중</span>
+                  <button className="remove-btn" onClick={handleRemove}>
+                    서재에서 제거
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="divider" />
 
-          {/* 책 소개 및 더보기 버튼 */}
           <div className="contents">
             {isExpanded || !isLongText ? fullText : shortText + "..."}
             {isLongText && (
@@ -125,14 +191,17 @@ const BookDetail = () => {
         </div>
       </section>
 
-      {/* 하단: 작가의 다른 도서 섹션 */}
       <section>
         <h3 className="sub-title">이 작가의 다른 도서</h3>
         <div className="book-grid">
           {authorBooks.length > 0 ? (
             authorBooks.map((book, idx) => (
               <div key={book.isbn || idx} className="grid-item">
-                <a href={book.url} target="_blank" rel="noopener noreferrer">
+                <a
+                  href={"/?isbn=" + book.isbn.substring(0, 10)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <img
                     src={
                       book.thumbnail ||

@@ -26,11 +26,6 @@
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
       object-fit: cover;
       align-self: flex-start;
-      transition: transform 0.3s ease;
-
-      &:hover {
-        transform: translateY(-5px);
-      }
     }
 
     .info-box {
@@ -81,6 +76,133 @@
         }
       }
 
+      .store-control-section {
+        margin: 25px 0;
+        padding: 18px;
+        background-color: #f8f9fa;
+        border-radius: 12px;
+        border: 1px solid #eee;
+        display: flex;
+        align-items: center;
+        min-height: 80px;
+
+        .add-btn {
+          width: 100%;
+          padding: 14px;
+          background-color: #1a1a1a;
+          color: #fff;
+          border: none;
+          border-radius: 8px;
+          font-weight: 700;
+          font-size: 1rem;
+          cursor: pointer;
+          transition:
+            background 0.2s,
+            transform 0.1s;
+
+          &:hover {
+            background-color: #333;
+          }
+
+          &:active {
+            transform: scale(0.98);
+          }
+        }
+
+        .edit-controls {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 15px;
+          align-items: center;
+          width: 100%;
+
+          .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+            min-width: 140px;
+
+            label {
+              font-size: 0.85rem;
+              font-weight: 700;
+              color: #666;
+            }
+
+            select,
+            input[type="date"] {
+              padding: 10px;
+              border: 1px solid #ddd;
+              border-radius: 6px;
+              font-family: inherit;
+              font-size: 0.95rem;
+              color: #333;
+              outline: none;
+              background-color: #fff;
+
+              &:focus {
+                border-color: #007bff;
+              }
+
+              &:disabled {
+                background-color: #eee;
+                color: #999;
+                cursor: not-allowed;
+              }
+            }
+          }
+
+          .status-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            margin-left: auto;
+            min-width: 100px;
+
+            .status-badge-btn {
+              font-size: 0.8rem;
+              color: #28a745;
+              font-weight: 700;
+              background-color: #fff;
+              border: 1px solid #28a745;
+              border-radius: 4px;
+              padding: 6px 12px;
+              display: flex;
+              align-items: center;
+              gap: 4px;
+              white-space: nowrap;
+
+              &::before {
+                content: "✓";
+              }
+            }
+
+            .remove-btn {
+              background-color: #fff;
+              border: 1px solid #dc3545;
+              color: #dc3545;
+              font-size: 0.8rem;
+              font-weight: 600;
+              border-radius: 4px;
+              padding: 6px 12px;
+              cursor: pointer;
+              transition: all 0.2s;
+              white-space: nowrap;
+
+              &:hover {
+                background-color: #dc3545;
+                color: #fff;
+              }
+
+              &:active {
+                transform: scale(0.95);
+              }
+            }
+          }
+        }
+      }
+
       .divider {
         height: 1px;
         background-color: #eee;
@@ -122,11 +244,6 @@
 
     .grid-item {
       text-align: center;
-      transition: opacity 0.2s;
-
-      &:hover {
-        opacity: 0.8;
-      }
 
       .grid-img {
         width: 100%;
@@ -142,10 +259,12 @@
         font-weight: 600;
         line-height: 1.4;
         color: #333;
+
+        /* 수정된 부분 */
         display: -webkit-box;
-        -webkit-line-clamp: 2;
-        line-clamp: 2; // 추가된 표준 속성
         -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
         overflow: hidden;
       }
     }
