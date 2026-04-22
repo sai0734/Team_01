@@ -6,7 +6,7 @@ import SearchHeader from "./components/SearchHeader";
 const Home = lazy(() => import("./pages/Home"));
 const SearchPage = lazy(() => import("./pages/SearchPage"));
 const StatsPage = lazy(() => import("./pages/StatsPage"));
-const MyPage = lazy(() => import("./pages/MyPage"));
+const MyPage = lazy(() => import("./pages/MyPage/MyPage"));
 // const Profile = lazy(() => import("./pages"));
 // const Library = lazy(() => import("./pages"));
 // const Books = lazy(() => import("./pages/Books"));
