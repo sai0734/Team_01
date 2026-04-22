@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchHeader from "../components/SearchHeader";
 import { useLocation } from "react-router-dom";
 import BookModal from "../components/BookModal";
@@ -8,13 +8,26 @@ const SearchPage = () => {
 
   const bookList = location.state;
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false);
   const openModal = () => {
     setModalOpen(true);
   };
   const closeModal = () => {
     setModalOpen(false);
   };
+
+  // const preventScroll = (e) => {
+  //   e.preventDefault();
+  // };
+  // useEffect(() => {
+  //   const { body } = document;
+  //   if (isModalOpen) {
+  //     body.addEventListener("wheel", preventScroll, { passive: false });
+  //   }
+  //   return () => {
+  //     body.removeEventListener("wheel", preventScroll);
+  //   };
+  // }, [isModalOpen]);
 
   return (
     <div>
@@ -125,7 +138,7 @@ const SearchPage = () => {
                   도서 상세페이지
                 </button>
                 <BookModal
-                  open={modalOpen}
+                  isModalOpen={isModalOpen}
                   close={closeModal}
                   header={book.isbn}
                 />

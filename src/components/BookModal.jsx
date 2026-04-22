@@ -2,10 +2,10 @@ import React, { Children, useState } from "react";
 import "./BookModal.scss";
 import BookDetailPage from "../pages/BookDetailPage/BookDetailPage";
 
-const BookModal = ({ open, close, header }) => {
+const BookModal = ({ isModalOpen, close, header }) => {
   return (
-    <div className={open ? "openModal modal" : "modal"}>
-      {open ? (
+    <div className={isModalOpen ? "openModal modal" : "modal"}>
+      {isModalOpen ? (
         <section>
           <div className="modalHeader">
             <button className="modalClose" onClick={close}>
