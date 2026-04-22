@@ -12,6 +12,7 @@ const MyPage = lazy(() => import("./pages/MyPage/MyPage"));
 // const Books = lazy(() => import("./pages/Books"));
 const Book = lazy(() => import("./pages/BookDetailPage/BookDetailPage"));
 const Login = lazy(() => import("./pages/Login"));
+const Recommend = lazy(() => import("./pages/Recommend"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const App = () => {
@@ -29,6 +30,7 @@ const App = () => {
         </Route>
         <Route path="/book" element={<Book />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/recommend" element={<Recommend />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
