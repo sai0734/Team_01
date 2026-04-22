@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import SearchHeader from "../components/SearchHeader";
 import { useLocation } from "react-router-dom";
 import BookModal from "../components/BookModal";
@@ -13,29 +13,27 @@ const SearchPage = () => {
 
   const { isOpen, openModal, closeModal } = useModalStore();
 
-  const preventScroll = (e) => {
+  const preventScroll = useCallback((e) => {
     if (e.target.closest(".scrollAllow")) return;
     e.preventDefault();
-  };
+  }, []);
 
   useEffect(() => {
-    console.log(isOpen);
+    if (!isOpen) return;
 
-    if (!isOpen) {
+    document.addEventListener("wheel", preventScroll, { passive: false });
+    document.body.style.overflow = "hidden";
+
+    return () => {
       document.removeEventListener("wheel", preventScroll);
       document.body.style.overflow = "auto";
-      console.log("b");
-    } else {
-      document.addEventListener("wheel", preventScroll, { passive: false });
-      document.body.style.overflow = "hidden";
-      console.log("a");
-    }
-  }, [isOpen]);
+    };
+  }, [isOpen, preventScroll]);
 
   return (
     <div>
       {/* 도서 상세페이지 팝업창 */}
-      <BookModal header={selectedBook} />
+      {isOpen && <BookModal header={selectedBook} />}
       {/* 검색 목록 */}
       <div className="book_list_container">
         {bookList ? (

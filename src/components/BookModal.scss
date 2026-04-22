@@ -1,6 +1,10 @@
 body {
   overflow: auto;
 }
+// ::-webkit-scrollbar {
+//   background-color: red;
+//   scrollbar-gutter: stable;
+// }
 .modal {
   display: none;
   position: fixed;
@@ -28,6 +32,7 @@ body {
   animation: modal-show 0.3s;
   overflow: hidden;
   overflow-y: auto;
+  scrollbar-width: thin;
 }
 .modal > section > div {
   position: relative;
