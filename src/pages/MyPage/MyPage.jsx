@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import useStore from "../Store/store"; // 경로 확인 필요!
 import "./MyPage.scss";
+import { Link } from "react-router-dom";
 
 const MyPage = () => {
   const { booksList } = useStore();
@@ -35,7 +36,7 @@ const MyPage = () => {
       <div className="book-grid">
         {books.map((book) => (
           <div key={book.isbn} className="book-item">
-            <a href={`/?isbn=${book.isbn}`}>
+            <Link to={`/book?isbn=${book.isbn}`}>
               <img
                 src={
                   book.thumbnail ||
@@ -43,7 +44,7 @@ const MyPage = () => {
                 }
                 alt={book.title}
               />
-            </a>
+            </Link>
             <div className="book-info">
               <p className="book-title">{book.title}</p>
               {book.rating > 0 && (
