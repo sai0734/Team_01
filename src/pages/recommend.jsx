@@ -10,7 +10,7 @@ const Recommend = () => {
   // API 키 설정
   const KAKAO_API_KEY = "895559b4f45cd858c4fcd679aa17c38b";
   // 구글 Gemini API 키를 아래에 입력하세요 (없을 경우 일반 검색으로 동작하도록 예외처리)
-  const GEMINI_API_KEY = "YOUR_GOOGLE_GEMINI_API_KEY"; 
+  const GEMINI_API_KEY = "AIzaSyDimUJfqFc0uIyE_vd0iQztG7AucPe3aE0"; 
 
   const handleSmartSearch = async (e) => {
     e.preventDefault();
@@ -72,7 +72,7 @@ const Recommend = () => {
     <div>
       <h1 >📖 AI 맞춤 도서 추천</h1>
 
-      {/* 1. 히스토리 기반 추천 (버튼만 유지) */}
+      {/* 1. 히스토리 기반 추천 (버튼만 유지) 111*/}
       <section >
         <h3 >📜 내 독서 히스토리 분석</h3>
         <p >기존에 저장하거나 검색한 데이터를 바탕으로 취향을 분석합니다.</p>
