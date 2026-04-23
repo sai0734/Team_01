@@ -28,16 +28,13 @@ const BookCalendar = () => {
   const last30Count = last30Days.length;
 
   // 월별 독서량 통계
-  const [currentYear, setCurrentYear] = useState(today.getFullYear());
+  const [selectedYear, setSelectedYear] = useState(today.getFullYear());
 
   const monthlyStats = booksList.reduce((acc, book) => {
     if (book.readDate == "") return acc;
 
     const date = new Date(book.readDate);
-    if (date.getFullYear() !== currentYear) {
-      console.log(date);
-      return acc;
-    }
+    if (date.getFullYear() !== selectedYear) return acc;
 
     const month = date.getMonth() + 1;
     acc[month] = (acc[month] || 0) + 1;
@@ -106,7 +103,19 @@ const BookCalendar = () => {
         tileContent={tileContent}
       />
       <div>지난 30일 독서량: {last30Count}권</div>
-      <p>{currentYear}년 월별 독서량</p>
+      <div className="selectWrap">
+        <select
+          id="yearSelection"
+          value={selectedYear}
+          onChange={(e) => setSelectedYear(Number(e.target.value))}
+        >
+          <option value={2026}>2026</option>
+          <option value={2025}>2025</option>
+          <option value={2024}>2024</option>
+          <option value={2023}>2023</option>
+        </select>
+        <lavel for="yearSelection">년 월별 통계</lavel>
+      </div>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={bookChartData}>
           <XAxis dataKey="month" />
