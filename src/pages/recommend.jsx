@@ -23,7 +23,7 @@ const Recommend = () => {
       let searchKeyword = userWorry;
 
       // STEP 1: Google Gemini AI를 통한 키워드 정제
-      // 사용자의 푸념에서 도서 검색에 가장 적합한 '단어'를 추출합니다.
+      // 사용자의 푸념에서 도서 검색에 가장 적합한 '단어'를 추출합니다..
       try {
         const geminiRes = await fetch(
           `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
