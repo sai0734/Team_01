@@ -5,6 +5,7 @@ import useModalStore from "../pages/Store/modal";
 
 const BookModal = ({ header }) => {
   const { isOpen, openModal, closeModal } = useModalStore();
+  console.log(header.url);
 
   return (
     <div className={isOpen ? "openModal modal" : "modal"}>
