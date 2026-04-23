@@ -47,7 +47,7 @@ const SearchPage = () => {
                 padding: "20px 0",
               }}
             >
-              <a href={book.url}>
+              <a href={book.url + "&tab=selling"} target="_blank">
                 <div className="book-img">
                   <img
                     src={
@@ -64,7 +64,7 @@ const SearchPage = () => {
                 </div>
               </a>
 
-              <a href={book.url}>
+              <a href={book.url + "&tab=selling"} target="_blank">
                 <div
                   className="book-info"
                   style={{ marginLeft: "20px", flex: 1 }}
