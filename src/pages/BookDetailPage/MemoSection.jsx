@@ -14,7 +14,8 @@ const MemoSection = ({ isbn }) => {
   // 즉 props로 받아온 isbn값이 store의 서재에 있는지 확인하고 있으면 currentBook에 담는다.
   const currentBook = booksList.find((b) => b.isbn === isbn);
 
-  // currentBook에 즉 서재에 책이 담겨있으면 거기서 memos 배열을 불러오고 아니면 빈배열
+  // currentBook에 즉 서재에 책이(isbn) 담겨있으면 거기서 memos 배열을 불러오고 아니면 빈배열
+  // store에 booksList배열 속에 객체로 책의 정보가 담겨있고 객체속 memos라는 배열 속에 memo가 있다.
   const memos = currentBook ? currentBook.memos : [];
 
   const handleSave = () => {
