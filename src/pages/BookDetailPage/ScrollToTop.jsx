@@ -1,8 +1,14 @@
 import React from "react";
 
-const ScrollToTop = () => {
+const ScrollToTop = ({ scrollRef }) => {
   const moveTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (scrollRef && scrollRef.current) {
+      // 모달페이지라면
+      scrollRef.current.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      // 일반페이지라면
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   return (
