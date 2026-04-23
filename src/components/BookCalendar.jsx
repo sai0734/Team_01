@@ -114,7 +114,7 @@ const BookCalendar = () => {
           <option value={2024}>2024</option>
           <option value={2023}>2023</option>
         </select>
-        <lavel for="yearSelection">년 월별 통계</lavel>
+        <label htmlFor="yearSelection">년 월별 통계</label>
       </div>
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={bookChartData}>
