@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Calendar from "react-calendar";
 import "./BookCalendar.scss";
 import useStore from "../pages/Store/store";
@@ -47,6 +47,18 @@ const BookCalendar = () => {
     count: monthlyStats[i + 1] || 0,
   }));
 
+  const currentYear = today.getFullYear();
+  const years = useMemo(() => {
+    return [
+      ...new Set([
+        currentYear,
+        ...booksList
+          .filter((b) => b.readDate)
+          .map((b) => new Date(b.readDate).getFullYear()),
+      ]),
+    ].sort((a, b) => b - a);
+  }, [booksList]);
+
   // 내 평점
   const ratedBook = booksList.filter((book) => typeof book.rating == "number");
   const averageRating =
@@ -73,6 +85,7 @@ const BookCalendar = () => {
 
   const calendarBooks = booksList.filter((book) => book.readDate !== "");
 
+  // 달력에 사진 추가
   const tileContent = ({ date, view }) => {
     if (view !== "month") return null;
 
@@ -109,10 +122,11 @@ const BookCalendar = () => {
           value={selectedYear}
           onChange={(e) => setSelectedYear(Number(e.target.value))}
         >
-          <option value={2026}>2026</option>
-          <option value={2025}>2025</option>
-          <option value={2024}>2024</option>
-          <option value={2023}>2023</option>
+          {years.map((year) => (
+            <option key={year} value={year}>
+              {year}년
+            </option>
+          ))}
         </select>
         <label htmlFor="yearSelection">년 월별 통계</label>
       </div>
