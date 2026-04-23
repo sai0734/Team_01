@@ -25,10 +25,6 @@ const BookDetail = ({ isbn }) => {
 
   const fetchBookData = useCallback(async () => {
     try {
-      // const loc = location.href;
-      // const isbn = loc.substring(loc.indexOf("=") + 1);
-      // console.log(location);
-
       const response01 = await axios.get(
         "https://dapi.kakao.com/v3/search/book",
         {
@@ -55,15 +51,15 @@ const BookDetail = ({ isbn }) => {
               query: authorName,
               sort: "accuracy",
               page: 1,
-              size: 10,
+              size: 7,
             },
             headers: { Authorization: KAKAO_KEY },
           },
         );
 
-        const filteredBooks = response02.data.documents
-          .filter((book) => book.isbn !== mainBook.isbn)
-          .slice(0, 6);
+        const filteredBooks = response02.data.documents.filter(
+          (book) => book.isbn !== mainBook.isbn,
+        );
 
         setAuthorBooks(filteredBooks);
       }
