@@ -47,83 +47,87 @@ const SearchPage = () => {
                 padding: "20px 0",
               }}
             >
-              <div className="book-img">
-                <img
-                  src={
-                    book.thumbnail ||
-                    "https://via.placeholder.com/120x170?text=No+Image"
-                  }
-                  alt={book.title}
-                  style={{
-                    width: "120px",
-                    height: "170px",
-                    objectFit: "cover",
-                  }}
-                />
-              </div>
-
-              <div
-                className="book-info"
-                style={{ marginLeft: "20px", flex: 1 }}
-              >
-                <h2
-                  className="book-title"
-                  style={{ fontSize: "1.25rem", marginBottom: "10px" }}
-                >
-                  {book.title}
-                </h2>
-
-                <p
-                  className="book-meta"
-                  style={{ color: "#666", fontSize: "14px" }}
-                >
-                  <span>{book.authors.join(", ")} 저</span> |{" "}
-                  <span>{book.publisher}</span> |{" "}
-                  <span>{book.datetime.substring(0, 4)}년</span>
-                </p>
-
-                <p
-                  className="book-description"
-                  style={{
-                    margin: "15px 0",
-                    fontSize: "14px",
-                    color: "#333",
-                    lineHeight: "1.5",
-                  }}
-                >
-                  {book.contents
-                    ? `${book.contents.substring(0, 150)}...`
-                    : "내용 요약이 없습니다."}
-                </p>
-
-                <div className="book-price" style={{ marginTop: "10px" }}>
-                  <span
-                    className="discount-price"
+              <a href={book.url}>
+                <div className="book-img">
+                  <img
+                    src={
+                      book.thumbnail ||
+                      "https://via.placeholder.com/120x170?text=No+Image"
+                    }
+                    alt={book.title}
                     style={{
-                      color: "red",
-                      fontWeight: "bold",
-                      fontSize: "18px",
+                      width: "120px",
+                      height: "170px",
+                      objectFit: "cover",
+                    }}
+                  />
+                </div>
+              </a>
+
+              <a href={book.url}>
+                <div
+                  className="book-info"
+                  style={{ marginLeft: "20px", flex: 1 }}
+                >
+                  <h2
+                    className="book-title"
+                    style={{ fontSize: "1.25rem", marginBottom: "10px" }}
+                  >
+                    {book.title}
+                  </h2>
+
+                  <p
+                    className="book-meta"
+                    style={{ color: "#666", fontSize: "14px" }}
+                  >
+                    <span>{book.authors.join(", ")} 저</span> |{" "}
+                    <span>{book.publisher}</span> |{" "}
+                    <span>{book.datetime.substring(0, 4)}년</span>
+                  </p>
+
+                  <p
+                    className="book-description"
+                    style={{
+                      margin: "15px 0",
+                      fontSize: "14px",
+                      color: "#333",
+                      lineHeight: "1.5",
                     }}
                   >
-                    {book.sale_price > 0
-                      ? `${book.sale_price.toLocaleString()}원`
-                      : "가격 정보 없음"}
-                  </span>
-                  {book.price !== book.sale_price && (
+                    {book.contents
+                      ? `${book.contents.substring(0, 150)}...`
+                      : "내용 요약이 없습니다."}
+                  </p>
+
+                  <div className="book-price" style={{ marginTop: "10px" }}>
                     <span
-                      className="original-price"
+                      className="discount-price"
                       style={{
-                        textDecoration: "line-through",
-                        marginLeft: "10px",
-                        color: "#888",
-                        fontSize: "14px",
+                        color: "red",
+                        fontWeight: "bold",
+                        fontSize: "18px",
                       }}
                     >
-                      {book.price.toLocaleString()}원
+                      {book.sale_price > 0
+                        ? `${book.sale_price.toLocaleString()}원`
+                        : "가격 정보 없음"}
                     </span>
-                  )}
+                    {book.price !== book.sale_price && (
+                      <span
+                        className="original-price"
+                        style={{
+                          textDecoration: "line-through",
+                          marginLeft: "10px",
+                          color: "#888",
+                          fontSize: "14px",
+                        }}
+                      >
+                        {book.price.toLocaleString()}원
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
+              </a>
 
               <div className="book-action" style={{ alignSelf: "center" }}>
                 <button
