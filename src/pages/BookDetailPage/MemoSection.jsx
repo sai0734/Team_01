@@ -62,7 +62,7 @@ const MemoSection = ({ isbn }) => {
           placeholder="이 책에 대한 생각을 자유롭게 남겨보세요."
           value={text}
           onChange={(e) => setText(e.target.value)}
-          // booksList에 없으면 비활성화한다.
+          // booksList에 없으면 비활성화
           disabled={!currentBook}
         />
         <div className="btn-box">
