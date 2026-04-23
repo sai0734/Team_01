@@ -1,13 +1,66 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import SearchHeader from "../components/SearchHeader";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import BookModal from "../components/BookModal";
 import useModalStore from "./Store/modal";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const SearchPage = () => {
   const location = useLocation();
 
-  const bookList = location.state;
+  const [searchParams] = useSearchParams();
+  const search = searchParams.get("q") || "";
+
+  const fetchBooks = async ({ pageParams = 1, queryKey }) => {
+    const [, search] = queryKey;
+
+    const res = await axios.get("https://dapi.kakao.com/v3/search/book", {
+      params: { query: search, sort: "accuracy", page: pageParams, size: 10 },
+      headers: { Authorization: "KakaoAK 895559b4f45cd858c4fcd679aa17c38b" },
+    });
+
+    const data = res.data;
+
+    return {
+      books: data.documents,
+      isLast: data.meta.is_end,
+    };
+  };
+
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["books", search],
+      queryFn: fetchBooks,
+      enabled: !!search,
+
+      getNextPageParam: (lastPage, pages) => {
+        return lastPage.isLast ? undefined : pages.length + 1;
+      },
+    });
+
+  const bookList = data?.pages?.flatMap((page) => page.books) || [];
+
+  const observerRef = useRef(null);
+
+  const lastBookRef = useCallback(
+    (node) => {
+      if (!node) return;
+      if (!hasNextPage) return;
+      if (isFetchingNextPage) return;
+
+      observerRef.current?.disconnect();
+
+      observerRef.current = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          fetchNextPage();
+        }
+      });
+
+      observerRef.current.observe(node);
+    },
+    [fetchNextPage, hasNextPage, isFetchingNextPage],
+  );
 
   const [selectedBook, setSelectedBook] = useState({ isbn: "" });
 
@@ -36,8 +89,10 @@ const SearchPage = () => {
       {isOpen && <BookModal header={selectedBook} />}
       {/* 검색 목록 */}
       <div className="book_list_container">
-        {bookList ? (
-          bookList.map((book, index) => (
+        {bookList.map((book, index) => {
+          const isLast = index === bookList.length - 1;
+
+          return (
             <article
               key={index}
               className="book_item"
@@ -47,7 +102,7 @@ const SearchPage = () => {
                 padding: "20px 0",
               }}
             >
-              <a href={book.url + "&tab=selling"} target="_blank">
+              <a href={book.url}>
                 <div className="book-img">
                   <img
                     src={
@@ -64,7 +119,7 @@ const SearchPage = () => {
                 </div>
               </a>
 
-              <a href={book.url + "&tab=selling"} target="_blank">
+              <a href={book.url}>
                 <div
                   className="book-info"
                   style={{ marginLeft: "20px", flex: 1 }}
@@ -149,14 +204,10 @@ const SearchPage = () => {
                 </button>
               </div>
             </article>
-          ))
-        ) : (
-          <div
-            style={{ padding: "100px 0", textAlign: "center", color: "#999" }}
-          >
-            검색 결과가 없습니다. 다시 검색해 주세요.
-          </div>
-        )}
+          );
+        })}
+
+        <div ref={lastBookRef} style={{ height: 1 }} />
       </div>
     </div>
   );
