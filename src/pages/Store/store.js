@@ -3,7 +3,75 @@ import axios from "axios";
 
 const useStore = create((set, get) => ({
   // 1. 상태 (state)
-  booksList: [],
+  booksList: [
+    {
+      authors: ["정미나"],
+      contents:
+        "유튜브 선생님에게 배우는 유·선·배, 〈유선배 SQL개발자 과외노트〉와 함께 2023년 SQLD 합격의 주인공이 되어 보세요!  Step 1. 유튜브 무료 동영상 강의 제공 유튜브에서 ‘SQL전문가 정미나’를 검색해보세요! 저자 직강의 동영상 강의를 무료로 제공합니다. 혼자 공부하기 어려워 도움이 필요할 때, 체계적인 커리큘럼으로 공부하고 싶을 때, 온라인 강의를 무료로 듣고 싶을 때 유선배와 함께 해요!  Step 2. [부록] 시험 전에 꼭",
+      datetime: "2023-01-05T00:00:00.000+09:00",
+      isbn: "113833409X 9791138334099",
+      price: 23000,
+      publisher: "시대고시기획",
+      sale_price: 20700,
+      status: "정상판매",
+      thumbnail:
+        "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F6203728%3Ftimestamp%3D20240424162445",
+      title: "2023 유선배 SQL개발자(SQLD) 과외노트",
+      translators: [],
+      url: "https://search.daum.net/search?w=bookpage&bookId=6203728&q=2023+%EC%9C%A0%EC%84%A0%EB%B0%B0+SQL%EA%B0%9C%EB%B0%9C%EC%9E%90%28SQLD%29+%EA%B3%BC%EC%99%B8%EB%85%B8%ED%8A%B8",
+      status: "안 읽은 책",
+      readDate: "",
+      rating: 4,
+      memos: [{ id: 1, content: "잘 모르겠다" }],
+    },
+    {
+      authors: ["길벗알앤디", "김정준"],
+      contents:
+        "2025 시나공 정보처리기사 필기 기본서는 기출문제를 면밀히 분석함으로써 출제 경향을 완벽하게 반영한 책으로, 매년 개정을 통해 최신 기출문제를 수록하고 있습니다. NCS 학습 모듈을 가이드 삼아 이론에 대한 자세한 설명과 충분한 예제를 더한 후, 기초가 없는 수험생도 이해할 수 있도록 최대한 쉽게 설명했습니다.  ■ 〈시나공〉에서만 만날 수 있는 합격 비법 - 꼼꼼하고 확실한 개념 정리: 철저한 분석으로 출제 개념을 구성하여 확실한 시험 대비",
+      datetime: "2024-11-11T00:00:00.000+09:00",
+      isbn: "114071144X 9791140711444",
+      price: 35000,
+      publisher: "길벗",
+      sale_price: 31500,
+      status: "정상판매",
+      thumbnail:
+        "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F6755420%3Ftimestamp%3D20260317123415",
+      title: "2025 시나공 정보처리기사 필기 기본서",
+      translators: [],
+      url: "https://search.daum.net/search?w=bookpage&bookId=6755420&q=2025+%EC%8B%9C%EB%82%98%EA%B3%B5+%EC%A0%95%EB%B3%B4%EC%B2%98%EB%A6%AC%EA%B8%B0%EC%82%AC+%ED%95%84%EA%B8%B0+%EA%B8%B0%EB%B3%B8%EC%84%9C",
+      status: "읽고 있는 책",
+      readDate: "",
+      rating: 5,
+      memos: [
+        { id: 1, content: "이론 정리가 잘 되있는거 같다." },
+        { id: 2, content: "근데 생각보다 문제는 빈약한거 같기도?" },
+      ],
+    },
+    {
+      authors: ["양미석"],
+      contents:
+        "시시각각 변하는 도쿄를 가장 생생하고 정확하게 담아낸 《리얼 도쿄》의 귀환! 겉핥기식의 내용은 가라! 20여 년간 도쿄를 속속들이 누벼온 저자의 여행 감각과 노하우, 그리고 여행자에게 꼭 필요한 실용적인 정보를 쏙쏙 골라내 한 권의 책으로 빚어냈다. 도쿄가 처음인 사람에게는 더없이 알찬 정보로, 도쿄 좀 여행 한다 싶은 사람에게는 새롭고 신선한 정보로 가득하다. 하지만 많이 소개한다고, 그저 두꺼워진다고 능사가 아니다. 기존 장소들을 철저히 검증",
+      datetime: "2024-02-26T00:00:00.000+09:00",
+      isbn: "1193080258 9791193080252",
+      price: 21000,
+      publisher: "한빛라이프",
+      sale_price: 18900,
+      status: "정상판매",
+      thumbnail:
+        "https://search1.kakaocdn.net/thumb/R120x174.q85/?fname=http%3A%2F%2Ft1.daumcdn.net%2Flbook%2Fimage%2F6568557%3Ftimestamp%3D20250201153448",
+      title: "리얼 도쿄(2024~2025)",
+      translators: [],
+      url: "https://search.daum.net/search?w=bookpage&bookId=6568557&q=%EB%A6%AC%EC%96%BC+%EB%8F%84%EC%BF%84%282024%7E2025%29",
+      status: "읽은 책",
+      readDate: "2026-04-15",
+      rating: 1,
+      memos: [
+        { id: 1, content: "없어진 집들이 너무 많다." },
+        { id: 2, content: "얼마 지나지 않았는데 가격도 전부 다른데?" },
+        { id: 3, content: "지금은 참고가 안되는 책인거 같음" },
+      ],
+    },
+  ],
 
   // 2. 상태 변경 함수 (Actions)
 
@@ -95,8 +163,6 @@ const useStore = create((set, get) => ({
           : book,
       ),
     })),
-
-  // AI와의 대화 (제미나이님이 만들어 주심)
 }));
 
 export default useStore;
