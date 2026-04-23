@@ -6,20 +6,8 @@ const SearchHeader = () => {
   const [input, setInput] = useState("");
   const navigate = useNavigate();
 
-  const onClick = async () => {
-    try {
-      const KakaoKey = "KakaoAK " + "895559b4f45cd858c4fcd679aa17c38b";
-      const result = await axios.get("https://dapi.kakao.com/v3/search/book", {
-        params: { query: input, sort: "accuracy", page: 1, size: 100 },
-        headers: { Authorization: KakaoKey },
-      });
-      navigate("/search", {
-        replace: true,
-        state: result.data.documents,
-      });
-    } catch (e) {
-      console.log("오류발생", e);
-    }
+  const onClick = () => {
+    navigate(`/search?q=${input}`);
   };
 
   return (
