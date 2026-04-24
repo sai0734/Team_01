@@ -1,11 +1,51 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Recommend from "./recommend"; 
+import Recommend from "./recommend";
 import Mylibrary from "./mylibrary";
 import SearchHeader from "../components/SearchHeader";
+<<<<<<< HEAD
 import "./Home.scss"; 
+=======
+import useStore from "./Store/store";
+>>>>>>> e1c055a3cd74199183c7ae52c3a76c05d6f29c7a
 
 const Home = () => {
+  const { booksList } = useStore();
+
+  // 읽고 있는 책 서재
+  const readingBooks = booksList.filter(
+    (book) => book.status == "읽고 있는 책",
+  );
+  const renderBookGrid = (books) => {
+    if (books.length === 0) {
+      return <p className="empty-msg">서재에 담긴 책이 없습니다.</p>;
+    }
+
+    return (
+      <div className="book-grid">
+        {books.map((book) => (
+          <div key={book.isbn} className="book-item">
+            <Link to={`/book?isbn=${book.isbn}`}>
+              <img
+                src={
+                  book.thumbnail ||
+                  "https://via.placeholder.com/120x174?text=No+Image"
+                }
+                alt={book.title}
+              />
+            </Link>
+            <div className="book-info">
+              <p className="book-title">{book.title}</p>
+              {book.rating > 0 && (
+                <p className="book-rating">★ {book.rating}</p>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
 
     <div className="home-container">
@@ -37,6 +77,7 @@ const Home = () => {
           <Recommend />
         </section>
 
+<<<<<<< HEAD
         {/* 4. 내 서재 섹션 (필요 시 주석 해제) */}
         {/* <section className="section-spacing">
           <div className="flex-header">
@@ -46,6 +87,17 @@ const Home = () => {
           <Mylibrary />
         </section> 
         */}
+=======
+        {/* 3. 읽고 있는 책들 (서재) 섹션 */}
+        <section className={`shelf-section`}>
+          <div className="shelf-header">
+            <h3>
+              읽고 있는 책 <span>({readingBooks.length})</span>
+            </h3>
+          </div>
+          <div className="shelf-content">{renderBookGrid(readingBooks)}</div>
+        </section>
+>>>>>>> e1c055a3cd74199183c7ae52c3a76c05d6f29c7a
       </main>
     </div>
   );

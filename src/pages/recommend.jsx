@@ -1,22 +1,28 @@
 import React, { useState, useEffect } from "react"; // useState, useEffect 통합
 import axios from "axios";
 import { Link } from "react-router-dom";
-import './Recommend.scss';
+import "./Recommend.scss";
 import useStore from "./Store/store";
+import { getRecommendation } from "./OllamaRecommend";
 
 const Recommend = () => {
   // 중복된 상태 선언 제거 및 하나로 합침
-  const [userWorry, setUserWorry] = useState(""); 
-  const [results, setResults] = useState([]);     
+  const [userWorry, setUserWorry] = useState("");
+  const [results, setResults] = useState([]);
   const [isSearching, setIsSearching] = useState(false);
-  const [aiKeyword, setAiKeyword] = useState(""); 
-  const [historyResults, setHistoryResults] = useState([]); 
-  const [historyReason, setHistoryReason] = useState(""); 
+  const [aiKeyword, setAiKeyword] = useState("");
+  const [historyResults, setHistoryResults] = useState([]);
+  const [historyReason, setHistoryReason] = useState("");
 
   // Store에서 데이터 가져오기 (비구조화 할당 방식 확인 필요)
+<<<<<<< HEAD
   const { booksList } = useStore(); 
+=======
+  const { booksList } = useStore();
+
+>>>>>>> e1c055a3cd74199183c7ae52c3a76c05d6f29c7a
   const KAKAO_API_KEY = "895559b4f45cd858c4fcd679aa17c38b";
-  const GEMINI_API_KEY = "AIzaSyDimUJfqFc0uIyE_vd0iQztG7AucPe3aE0"; 
+  const GEMINI_API_KEY = "AIzaSyDimUJfqFc0uIyE_vd0iQztG7AucPe3aE0";
 
   // --- 기능 1: 내 서재 데이터 분석 추천 ---
   useEffect(() => {
@@ -25,36 +31,45 @@ const Recommend = () => {
       if (!booksList || booksList.length === 0) return;
 
       try {
-        const bookTitles = booksList.map(b => b.title).join(", ");
-        
+        const bookTitles = booksList.map((b) => b.title).join(", ");
+
         const geminiRes = await fetch(
           `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              contents: [{
-                parts: [{
-                  text: `사용자가 읽은 책들: "${bookTitles}"\n이 책들의 공통적인 주제나 장르를 분석해서, 다음에 읽으면 좋을 책을 검색하기 위한 핵심 단어 딱 하나만 출력해줘.`
-                }]
-              }]
-            })
-          }
+              contents: [
+                {
+                  parts: [
+                    {
+                      text: `사용자가 읽은 책들: "${bookTitles}"\n이 책들의 공통적인 주제나 장르를 분석해서, 다음에 읽으면 좋을 책을 검색하기 위한 핵심 단어 딱 하나만 출력해줘.`,
+                    },
+                  ],
+                },
+              ],
+            }),
+          },
         );
 
         const geminiData = await geminiRes.json();
-        
+
         if (geminiData.candidates && geminiData.candidates[0].content) {
           const keyword = geminiData.candidates[0].content.parts[0].text.trim();
-          setHistoryReason(`사용자님의 '${booksList[booksList.length - 1].title}' 등 서재 기록을 분석해 찾은 키워드예요.`);
-          
-          const kakaoRes = await axios.get("https://dapi.kakao.com/v3/search/book", {
-            params: { query: keyword, size: 5 },
-            headers: { Authorization: `KakaoAK ${KAKAO_API_KEY}` },
-          });
-          
+          setHistoryReason(
+            `사용자님의 '${booksList[booksList.length - 1].title}' 등 서재 기록을 분석해 찾은 키워드예요.`,
+          );
+
+          const kakaoRes = await axios.get(
+            "https://dapi.kakao.com/v3/search/book",
+            {
+              params: { query: keyword, size: 5 },
+              headers: { Authorization: `KakaoAK ${KAKAO_API_KEY}` },
+            },
+          );
+
           const filtered = kakaoRes.data.documents.filter(
-            (rec) => !booksList.some((my) => my.isbn === rec.isbn)
+            (rec) => !booksList.some((my) => my.isbn === rec.isbn),
           );
           setHistoryResults(filtered);
         }
@@ -67,51 +82,72 @@ const Recommend = () => {
   }, [booksList]);
 
   // --- 기능 2: 고민 기반 AI 검색 ---
-  const handleSmartSearch = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!userWorry.trim()) return;
 
     setIsSearching(true);
     setAiKeyword("고민 분석 중...");
-
     try {
-      let searchKeyword = userWorry;
-
-      const geminiRes = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [{
-              parts: [{
-                text: `고민: "${userWorry}"\n이 고민에 위로가 되거나 해결책이 될 책을 찾으려 해. 검색어 딱 하나만 알려줘.`
-              }]
-            }]
-          })
-        }
-      );
-      
-      const geminiData = await geminiRes.json();
-      if (geminiData.candidates && geminiData.candidates[0].content) {
-        searchKeyword = geminiData.candidates[0].content.parts[0].text.trim();
-      }
-      setAiKeyword(searchKeyword);
-
-      const kakaoRes = await axios.get("https://dapi.kakao.com/v3/search/book", {
-        params: { query: searchKeyword, size: 8 },
-        headers: { Authorization: `KakaoAK ${KAKAO_API_KEY}` },
-      });
-      
-      // kakaoData가 아니라 kakaoRes.data를 사용해야 함
-      setResults(kakaoRes.data.documents || []);
-
+      const result = await getRecommendation(booksList, userWorry);
+      setAiKeyword(result);
     } catch (error) {
       console.error("검색 오류:", error);
     } finally {
       setIsSearching(false);
     }
   };
+  // const handleSmartSearch = async (e) => {
+  //   e.preventDefault();
+  //   if (!userWorry.trim()) return;
+
+  //   setIsSearching(true);
+  //   setAiKeyword("고민 분석 중...");
+
+  //   try {
+  //     let searchKeyword = userWorry;
+
+  //     const geminiRes = await fetch(
+  //       `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
+  //       {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({
+  //           contents: [
+  //             {
+  //               parts: [
+  //                 {
+  //                   text: `고민: "${userWorry}"\n이 고민에 위로가 되거나 해결책이 될 책을 찾으려 해. 검색어 딱 하나만 알려줘.`,
+  //                 },
+  //               ],
+  //             },
+  //           ],
+  //         }),
+  //       },
+  //     );
+
+  //     const geminiData = await geminiRes.json();
+  //     if (geminiData.candidates && geminiData.candidates[0].content) {
+  //       searchKeyword = geminiData.candidates[0].content.parts[0].text.trim();
+  //     }
+  //     setAiKeyword(searchKeyword);
+
+  //     const kakaoRes = await axios.get(
+  //       "https://dapi.kakao.com/v3/search/book",
+  //       {
+  //         params: { query: searchKeyword, size: 8 },
+  //         headers: { Authorization: `KakaoAK ${KAKAO_API_KEY}` },
+  //       },
+  //     );
+
+  //     // kakaoData가 아니라 kakaoRes.data를 사용해야 함
+  //     setResults(kakaoRes.data.documents || []);
+  //   } catch (error) {
+  //     console.error("검색 오류:", error);
+  //   } finally {
+  //     setIsSearching(false);
+  //   }
+  // };
 
   return (
     <div className="recommend-container">
@@ -126,7 +162,12 @@ const Recommend = () => {
               {historyResults.map((book, idx) => (
                 <div key={idx} className="book-card">
                   <Link to={`/book?isbn=${book.isbn}`}>
-                    <img src={book.thumbnail || "https://via.placeholder.com/120x174"} alt={book.title} />
+                    <img
+                      src={
+                        book.thumbnail || "https://via.placeholder.com/120x174"
+                      }
+                      alt={book.title}
+                    />
                     <p className="book-title-short">{book.title}</p>
                   </Link>
                 </div>
@@ -134,7 +175,9 @@ const Recommend = () => {
             </div>
           </>
         ) : (
-          <p className="empty-msg">서재에 책을 담으면 취향 분석이 시작됩니다!</p>
+          <p className="empty-msg">
+            서재에 책을 담으면 취향 분석이 시작됩니다!
+          </p>
         )}
       </section>
 
@@ -143,7 +186,7 @@ const Recommend = () => {
       <section className="recommend-section">
         <h3>💡 요즘 어떤 고민이 있으신가요?</h3>
         <p>고민을 분석하여 해결에 도움을 줄 책을 찾아드립니다.</p>
-        <form onSubmit={handleSmartSearch} className="search-form">
+        <form onSubmit={handleSubmit} className="search-form">
           <textarea
             rows="2"
             placeholder="예: 인간관계 때문에 너무 스트레스 받아요."
@@ -156,14 +199,19 @@ const Recommend = () => {
         </form>
 
         {aiKeyword && (
-          <div className="ai-tag">추출된 키워드: <span>#{aiKeyword}</span></div>
+          <div className="ai-tag">
+            <span>#{aiKeyword}</span>
+          </div>
         )}
 
         <div className="book-result-grid">
           {results.map((book, idx) => (
             <div key={idx} className="book-item">
               <Link to={`/book?isbn=${book.isbn}`}>
-                <img src={book.thumbnail || "https://via.placeholder.com/150x210"} alt={book.title} />
+                <img
+                  src={book.thumbnail || "https://via.placeholder.com/150x210"}
+                  alt={book.title}
+                />
                 <div className="book-info">{book.title}</div>
               </Link>
             </div>

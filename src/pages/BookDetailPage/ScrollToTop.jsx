@@ -30,7 +30,7 @@ const ScrollToTop = ({ scrollRef }) => {
         }}
         onClick={moveTop}
       >
-        위로가기
+        UP
       </button>
     </div>
   );
