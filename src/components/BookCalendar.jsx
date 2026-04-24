@@ -85,6 +85,19 @@ const BookCalendar = () => {
 
   const calendarBooks = booksList.filter((book) => book.readDate !== "");
 
+  // 사진 그룹핑
+  const groupedByDate = booksList.reduce((acc, book) => {
+    if (book.readDate == "") return acc;
+
+    const date = book.readDate;
+    if (!acc[date]) {
+      acc[date] = [];
+    }
+    acc[date].push(book);
+
+    return acc;
+  }, {});
+
   // 달력에 사진 추가
   const tileContent = ({ date, view }) => {
     if (view !== "month") return null;
@@ -101,13 +114,19 @@ const BookCalendar = () => {
 
     if (!book) return null;
 
+    const extraCount = groupedByDate[book.readDate].length - 1;
+
     return (
-      <img
-        src={book.thumbnail}
-        alt="https://via.placeholder.com/120x170?text=No+Image"
-      />
+      <>
+        {extraCount >= 1 && <p className="calendarTextCount">+{extraCount}</p>}
+        <img
+          src={book.thumbnail}
+          alt="https://via.placeholder.com/120x170?text=No+Image"
+        />
+      </>
     );
   };
+
   return (
     <div>
       <Calendar
