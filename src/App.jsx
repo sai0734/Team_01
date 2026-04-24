@@ -1,7 +1,6 @@
 import React, { lazy, Suspense } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Header from "./components/Header";
-import SearchHeader from "./components/SearchHeader";
 
 const Home = lazy(() => import("./pages/Home"));
 const SearchPage = lazy(() => import("./pages/SearchPage"));
@@ -29,7 +28,6 @@ const App = () => {
       {!isLoginPage && (
         <>
           <Header />
-          <SearchHeader />
         </>
       )}
 
