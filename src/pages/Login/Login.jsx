@@ -1,11 +1,17 @@
 import React, { useCallback, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  //   const [user, setUser] = useState([]);
+  const navigate = useNavigate();
 
-  const user = {
-    Id: { userName: "이젠아카데미", Pw: "1234", currentLoginState: false },
-  };
+  const user = [
+    {
+      userName: "이젠아카데미",
+      Id: "qwer",
+      Pw: "1234",
+      currentLoginState: false,
+    },
+  ];
   const [textId, setTextId] = useState("");
   const [textPw, setTextPw] = useState("");
 
@@ -18,23 +24,36 @@ const Login = () => {
   }, []);
 
   const login = () => {
-    if (textId === user.Id) {
-      if (textPw === user.Id.Pw) {
-        user.Id.currentLoginState = true;
+    const userId = user.find((u) => u.Id === textId);
+
+    if (userId) {
+      if (textPw === userId.Pw) {
+        userId.currentLoginState = true;
+        console.log("로그인 성공");
+        navigate("/Home");
       } else {
         alert("아이디 또는 비밀번호가 틀렸습니다");
+        setTextId("");
+        setTextPw("");
       }
     } else {
       alert("아이디 또는 비밀번호가 틀렸습니다");
+      setTextId("");
+      setTextPw("");
     }
+  };
+
+  const go = () => {
+    alert("회원가입 홈페이지로 이동...은 없습니다. (만들예정 아마도...)");
   };
 
   return (
     <div>
       <div>
+        <h1>로그인 페이지</h1>
         <div>
           <input value={textId} onChange={onChangeId} />
-          <input value={textPw} onChange={onChangePW} />
+          <input type="password" value={textPw} onChange={onChangePw} />
         </div>
         <div>
           <button onClick={login}>로그인</button>
