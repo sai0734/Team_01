@@ -12,9 +12,10 @@ const SearchPage = () => {
 
   const [searchParams] = useSearchParams();
   const search = searchParams.get("q") || "";
+  const [searchPageIndex, setSearchPageIndex] = useState(1);
 
   // API를 통한 책 검색
-  const fetchBooks = async ({ pageParams = 1, queryKey }) => {
+  const fetchBooks = async ({ pageParams = searchPageIndex, queryKey }) => {
     const [, search] = queryKey;
 
     const res = await axios.get("https://dapi.kakao.com/v3/search/book", {
@@ -51,6 +52,8 @@ const SearchPage = () => {
       if (!node) return;
       if (!hasNextPage) return;
       if (isFetchingNextPage) return;
+      const tempIndex = searchPageIndex;
+      setSearchPageIndex(tempIndex + 1);
 
       observerRef.current?.disconnect();
 
