@@ -15,8 +15,12 @@ const Recommend = () => {
   const [historyReason, setHistoryReason] = useState("");
 
   // Store에서 데이터 가져오기 (비구조화 할당 방식 확인 필요)
+<<<<<<< HEAD
+  const { booksList } = useStore(); 
+=======
   const { booksList } = useStore();
 
+>>>>>>> e1c055a3cd74199183c7ae52c3a76c05d6f29c7a
   const KAKAO_API_KEY = "895559b4f45cd858c4fcd679aa17c38b";
   const GEMINI_API_KEY = "AIzaSyDimUJfqFc0uIyE_vd0iQztG7AucPe3aE0";
 
