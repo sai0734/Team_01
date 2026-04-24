@@ -7,6 +7,9 @@ const Header = () => {
       <Link to="/">
         <img src="./assets/hero.png" />
       </Link>
+      <Link to="/mypage">
+        <p>나의 서재</p>
+      </Link>
     </div>
   );
 };
