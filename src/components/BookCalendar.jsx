@@ -118,11 +118,11 @@ const BookCalendar = () => {
 
     return (
       <>
-        {extraCount >= 1 && <p className="calendarTextCount">+{extraCount}</p>}
         <img
           src={book.thumbnail}
           alt="https://via.placeholder.com/120x170?text=No+Image"
         />
+        {extraCount >= 1 && <p className="calendarTextCount">+{extraCount}</p>}
       </>
     );
   };
@@ -156,10 +156,20 @@ const BookCalendar = () => {
         </div>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={bookChartData}>
-            <XAxis dataKey="month" />
-            <YAxis domain={[0, (dataMax) => dataMax * 1.2]} />
-            <Tooltip />
-            <Bar dataKey="count" fill="red" />
+            <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#6b7280" }} />
+            <YAxis
+              tick={{ fontSize: 12, fill: "#6b7280" }}
+              domain={[0, (dataMax) => dataMax * 1.2]}
+            />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "#fff",
+                border: "1px solid #e5e7eb",
+                borderRadius: "10px",
+                fontSize: "12px",
+              }}
+            />
+            <Bar dataKey="count" fill="#3b82f6" />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -169,10 +179,24 @@ const BookCalendar = () => {
         <p>내 별점 분포</p>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={ratingChartData}>
-            <XAxis dataKey="rating" padding={{ left: 40, right: 40 }} />
-            <YAxis domain={[0, (dataMax) => dataMax * 1.2]} />
-            <Tooltip />
-            <Line dataKey="count" stroke="red" />
+            <XAxis
+              dataKey="rating"
+              tick={{ fontSize: 12, fill: "#6b7280" }}
+              padding={{ left: 40, right: 40 }}
+            />
+            <YAxis
+              tick={{ fontSize: 12, fill: "#6b7280" }}
+              domain={[0, (dataMax) => dataMax * 1.2]}
+            />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "#fff",
+                border: "1px solid #e5e7eb",
+                borderRadius: "10px",
+                fontSize: "12px",
+              }}
+            />
+            <Line dataKey="count" stroke="#3b82f6" strokeWidth={2} />
           </LineChart>
         </ResponsiveContainer>
       </div>

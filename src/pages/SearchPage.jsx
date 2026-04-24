@@ -89,6 +89,7 @@ const SearchPage = () => {
 
   return (
     <div>
+      <SearchHeader />
       {/* 도서 상세페이지 팝업창 */}
       {isOpen && <BookModal header={selectedBook} />}
       {/* 검색 목록 */}
