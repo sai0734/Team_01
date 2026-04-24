@@ -28,7 +28,7 @@ const Login = () => {
       console.log("로그인 성공");
       navigate("/Home");
     } else {
-      alert("아이디 또는 비밀번호가 틀렸습니다");
+      alert("아이디 또는 비밀번호가 틀렸습니다.");
       setTextId("");
       setTextPw("");
       inputRef.current.focus();
@@ -36,7 +36,6 @@ const Login = () => {
   };
 
   const go = () => {
-    alert("회원가입 페이지로 이동합니다.");
     navigate("/membership");
   };
 

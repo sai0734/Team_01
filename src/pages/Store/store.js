@@ -186,7 +186,6 @@ const useStore = create((set, get) => ({
       const isUser = state.users.some((user) => user.Id === userId);
 
       if (isUser) {
-        alert("이미 존재하는 아이디입니다.");
         return state;
       } else {
         return {
