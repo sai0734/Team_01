@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import "./MemoSection.scss";
 import useStore from "../Store/store";
 
@@ -12,13 +12,16 @@ const MemoSection = ({ isbn }) => {
 
   // find 함수는 주어진 배열에서 콜백 함수의 조건을 만족하는 첫 번째 요소를 반환
   // 즉 props로 받아온 isbn값이 store의 서재에 있는지 확인하고 있으면 currentBook에 담는다.
-  const currentBook = booksList.find((b) => b.isbn === isbn);
+  // useMemo를 사용하여 text가 바뀔때마다 find 함수가 실행되지 않도록 useMemo로 최적화
+  const currentBook = useMemo(() => {
+    return booksList.find((b) => b.isbn === isbn);
+  }, [booksList, isbn]);
 
   // currentBook에 즉 서재에 책이(isbn) 담겨있으면 거기서 memos 배열을 불러오고 아니면 빈배열
   // store에 booksList배열 속에 객체로 책의 정보가 담겨있고 객체속 memos라는 배열 속에 memo가 있다.
   const memos = currentBook ? currentBook.memos : [];
 
-  const handleSave = () => {
+  const handleSave = useCallback(() => {
     // text 즉 내용이 비어있다면 중단
     if (!text.trim()) return;
 
@@ -30,7 +33,7 @@ const MemoSection = ({ isbn }) => {
     addMemo(isbn, editingId, text);
     setEditingId(null);
     setText("");
-  };
+  }, [text, isbn, editingId]);
 
   const handleEditInit = (memo) => {
     setEditingId(memo.id);
@@ -42,16 +45,19 @@ const MemoSection = ({ isbn }) => {
     setText("");
   };
 
-  const handleDelete = (id) => {
-    if (window.confirm("메모를 정말 삭제하시겠습니까?")) {
-      removeMemo(isbn, id);
+  const handleDelete = useCallback(
+    (id) => {
+      if (window.confirm("메모를 정말 삭제하시겠습니까?")) {
+        removeMemo(isbn, id);
 
-      if (editingId === id) {
-        setEditingId(null);
-        setText("");
+        if (editingId === id) {
+          setEditingId(null);
+          setText("");
+        }
       }
-    }
-  };
+    },
+    [isbn, editingId],
+  );
 
   return (
     <div className="memo-wrapper">

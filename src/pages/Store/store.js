@@ -3,6 +3,15 @@ import axios from "axios";
 
 const useStore = create((set, get) => ({
   // 1. 상태 (state)
+  users: [
+    {
+      userName: "이젠아카데미",
+      Id: "qwer",
+      Pw: "1234",
+      currentLoginState: false,
+    },
+  ],
+
   booksList: [
     {
       authors: ["정미나"],
@@ -88,7 +97,13 @@ const useStore = create((set, get) => ({
       return {
         booksList: [
           ...state.booksList,
-          { ...book, status: "안 읽은 책", readDate: "", rating: 0, memos: [] },
+          {
+            ...book,
+            status: "안 읽은 책",
+            readDate: "",
+            rating: null,
+            memos: [],
+          },
         ],
       };
     }),
@@ -163,6 +178,31 @@ const useStore = create((set, get) => ({
           : book,
       ),
     })),
+
+  // 회원가입 함수
+  addMembership: (userId, userPw, userName) => {
+    set((state) => {
+      // some() 함수에서 결과를 바로 리턴하려면 중괄호를 빼거나 return을 써야 합니다.
+      const isUser = state.users.some((user) => user.Id === userId);
+
+      if (isUser) {
+        alert("이미 존재하는 아이디입니다.");
+        return state;
+      } else {
+        return {
+          users: [
+            ...state.users,
+            {
+              userName: userName,
+              Id: userId,
+              Pw: userPw,
+              currentLoginState: false,
+            },
+          ],
+        };
+      }
+    });
+  },
 }));
 
 export default useStore;

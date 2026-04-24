@@ -5,7 +5,6 @@ import useModalStore from "../pages/Store/modal";
 
 const BookModal = ({ header }) => {
   const { isOpen, openModal, closeModal } = useModalStore();
-  console.log(header.url);
 
   // section을 조작하기 위해 useRef 사용
   const scroll = useRef(null);

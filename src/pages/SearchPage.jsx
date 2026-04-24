@@ -5,6 +5,7 @@ import BookModal from "../components/BookModal";
 import useModalStore from "./Store/modal";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
+import "./SearchPage.scss";
 
 const SearchPage = () => {
   const location = useLocation();
@@ -12,6 +13,7 @@ const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const search = searchParams.get("q") || "";
 
+  // API를 통한 책 검색
   const fetchBooks = async ({ pageParams = 1, queryKey }) => {
     const [, search] = queryKey;
 
@@ -28,6 +30,7 @@ const SearchPage = () => {
     };
   };
 
+  // react-query를 이용한 무한 스크롤 구현 함수
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ["books", search],
@@ -66,6 +69,7 @@ const SearchPage = () => {
 
   const { isOpen, openModal, closeModal } = useModalStore();
 
+  // 모달창이 열렸을 때 외부 스크롤 방지
   const preventScroll = useCallback((e) => {
     if (e.target.closest(".scrollAllow")) return;
     e.preventDefault();
@@ -93,16 +97,8 @@ const SearchPage = () => {
           const isLast = index === bookList.length - 1;
 
           return (
-            <article
-              key={index}
-              className="book_item"
-              style={{
-                display: "flex",
-                borderBottom: "1px solid #ccc",
-                padding: "20px 0",
-              }}
-            >
-              <a href={book.url}>
+            <article key={index} className="book_item">
+              <a href={book.url + "&tab=selling"} target="_blank">
                 <div className="book-img">
                   <img
                     src={
@@ -110,73 +106,34 @@ const SearchPage = () => {
                       "https://via.placeholder.com/120x170?text=No+Image"
                     }
                     alt={book.title}
-                    style={{
-                      width: "120px",
-                      height: "170px",
-                      objectFit: "cover",
-                    }}
                   />
                 </div>
               </a>
 
-              <a href={book.url}>
-                <div
-                  className="book-info"
-                  style={{ marginLeft: "20px", flex: 1 }}
-                >
-                  <h2
-                    className="book-title"
-                    style={{ fontSize: "1.25rem", marginBottom: "10px" }}
-                  >
-                    {book.title}
-                  </h2>
+              <a href={book.url + "&tab=selling"} target="_blank">
+                <div className="book-info">
+                  <h2 className="book-title">{book.title}</h2>
 
-                  <p
-                    className="book-meta"
-                    style={{ color: "#666", fontSize: "14px" }}
-                  >
+                  <p className="book-meta">
                     <span>{book.authors.join(", ")} 저</span> |{" "}
                     <span>{book.publisher}</span> |{" "}
                     <span>{book.datetime.substring(0, 4)}년</span>
                   </p>
 
-                  <p
-                    className="book-description"
-                    style={{
-                      margin: "15px 0",
-                      fontSize: "14px",
-                      color: "#333",
-                      lineHeight: "1.5",
-                    }}
-                  >
+                  <p className="book-description">
                     {book.contents
                       ? `${book.contents.substring(0, 150)}...`
                       : "내용 요약이 없습니다."}
                   </p>
 
-                  <div className="book-price" style={{ marginTop: "10px" }}>
-                    <span
-                      className="discount-price"
-                      style={{
-                        color: "red",
-                        fontWeight: "bold",
-                        fontSize: "18px",
-                      }}
-                    >
+                  <div className="book-price">
+                    <span className="discount-price">
                       {book.sale_price > 0
                         ? `${book.sale_price.toLocaleString()}원`
                         : "가격 정보 없음"}
                     </span>
                     {book.price !== book.sale_price && (
-                      <span
-                        className="original-price"
-                        style={{
-                          textDecoration: "line-through",
-                          marginLeft: "10px",
-                          color: "#888",
-                          fontSize: "14px",
-                        }}
-                      >
+                      <span className="original-price">
                         {book.price.toLocaleString()}원
                       </span>
                     )}
@@ -185,16 +142,9 @@ const SearchPage = () => {
               </a>
 
               <div className="book-action" style={{ alignSelf: "center" }}>
+                {/* 모달창 열기 */}
                 <button
                   className="add-cart-btn"
-                  style={{
-                    padding: "10px 20px",
-                    cursor: "pointer",
-                    backgroundColor: "#333",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "4px",
-                  }}
                   onClick={() => {
                     openModal();
                     setSelectedBook(book);
@@ -206,7 +156,7 @@ const SearchPage = () => {
             </article>
           );
         })}
-
+        {/* 페이지 하단에 도달했음을 감지하는 부분 */}
         <div ref={lastBookRef} style={{ height: 1 }} />
       </div>
     </div>
