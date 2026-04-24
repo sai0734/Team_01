@@ -16,7 +16,7 @@ const ScrollToTop = ({ scrollRef }) => {
       style={{
         position: "fixed",
         bottom: "5%",
-        right: "3rem",
+        right: "2rem",
       }}
     >
       <button
