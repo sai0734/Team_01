@@ -4,12 +4,26 @@ import { Navigate, useNavigate } from "react-router-dom";
 import "./Membership.scss";
 
 const Membership = () => {
-  const { addMembership } = useStore();
   const navigate = useNavigate();
-
+  const { addMembership, users } = useStore();
   const [userId, setUserId] = useState("");
   const [userPw, setUserPw] = useState("");
   const [userName, setUserName] = useState("");
+
+  const add = () => {
+    if (!userId || !userPw || !userName) {
+      alert("정보를 모두 입력해주세요.");
+      return false;
+    }
+    const isExist = users.some((user) => user.Id === userId);
+    if (isExist) {
+      alert("중복된 아이디 입니다.");
+      setUserId("");
+      return false;
+    }
+    addMembership(userId, userPw, userName);
+    return true;
+  };
 
   return (
     <div className="membership-container">
@@ -57,9 +71,10 @@ const Membership = () => {
           <button
             className="signup-btn"
             onClick={() => {
-              addMembership(userId, userPw, userName);
-              alert("회원가입이 완료되었습니다.");
-              navigate("/");
+              if (add()) {
+                alert("회원가입이 완료되었습니다.");
+                navigate("/");
+              }
             }}
           >
             회원가입
