@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react"; // useState, useEffect 통합
-import axios from "axios";
-import { Link } from "react-router-dom";
-import "./Recommend.scss";
-import useStore from "./Store/store";
-import { getRecommendation } from "./OllamaRecommend";
+import React from "react";
+// 필요한 컴포넌트나 라이브러리를 여기서 임포트하세요.
+// 예: import { Link } from "react-router-dom";
+import "./recommend.scss"; // 혹은 CSS 파일
 
 const Recommend = () => {
+  // 만약 추천 도서 데이터가 있다면 여기서 관리하거나 props로 받으세요.
+  const recommendedBooks = [
+    // { id: 1, title: "추천 도서 1", thumbnail: "..." },
+  ];
   // 중복된 상태 선언 제거 및 하나로 합침
   const [userWorry, setUserWorry] = useState("");
   const [results, setResults] = useState([]);
@@ -146,73 +148,19 @@ const Recommend = () => {
 
   return (
     <div className="recommend-container">
-      <h1>📖 AI 맞춤 도서 추천</h1>
-
-      <section className="recommend-section">
-        <h3>📜 내 독서 히스토리 분석</h3>
-        {booksList && booksList.length > 0 ? (
-          <>
-            <p className="recommend-reason">✨ {historyReason}</p>
-            <div className="book-scroll-grid">
-              {historyResults.map((book, idx) => (
-                <div key={idx} className="book-card">
-                  <Link to={`/book?isbn=${book.isbn}`}>
-                    <img
-                      src={
-                        book.thumbnail || "https://via.placeholder.com/120x174"
-                      }
-                      alt={book.title}
-                    />
-                    <p className="book-title-short">{book.title}</p>
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </>
-        ) : (
-          <p className="empty-msg">
-            서재에 책을 담으면 취향 분석이 시작됩니다!
-          </p>
-        )}
-      </section>
-
-      <hr />
-
-      <section className="recommend-section">
-        <h3>💡 요즘 어떤 고민이 있으신가요?</h3>
-        <p>고민을 분석하여 해결에 도움을 줄 책을 찾아드립니다.</p>
-        <form onSubmit={handleSubmit} className="search-form">
-          <textarea
-            rows="2"
-            placeholder="예: 인간관계 때문에 너무 스트레스 받아요."
-            value={userWorry}
-            onChange={(e) => setUserWorry(e.target.value)}
-          />
-          <button type="submit" disabled={isSearching}>
-            {isSearching ? "분석 중..." : "AI 추천받기"}
-          </button>
-        </form>
-
-        {aiKeyword && (
-          <div className="ai-tag">
-            <span>#{aiKeyword}</span>
-          </div>
-        )}
-
-        <div className="book-result-grid">
-          {results.map((book, idx) => (
-            <div key={idx} className="book-item">
-              <Link to={`/book?isbn=${book.isbn}`}>
-                <img
-                  src={book.thumbnail || "https://via.placeholder.com/150x210"}
-                  alt={book.title}
-                />
-                <div className="book-info">{book.title}</div>
-              </Link>
-            </div>
-          ))}
+      <div className="recommend-header">
+        <h2 className="section-title">오늘의 추천 도서</h2>
+      </div>
+      
+      <div className="recommend-list">
+        {/* 추천 도서 아이템들을 렌더링하는 로직 */}
+        <p>AI가 분석한 맞춤형 도서 리스트입니다.</p>
+        
+        {/* 예시 리스트 렌더링 */}
+        <div className="recommend-grid">
+          {/* recommendedBooks.map(book => (...)) */}
         </div>
-      </section>
+      </div>
     </div>
   );
 };
