@@ -3,11 +3,8 @@ import { Link } from "react-router-dom";
 import Recommend from "./recommend";
 import Mylibrary from "./mylibrary";
 import SearchHeader from "../components/SearchHeader";
-<<<<<<< HEAD
-import "./Home.scss"; 
-=======
+import "./Home.scss";
 import useStore from "./Store/store";
->>>>>>> e1c055a3cd74199183c7ae52c3a76c05d6f29c7a
 
 const Home = () => {
   const { booksList } = useStore();
@@ -47,9 +44,7 @@ const Home = () => {
   };
 
   return (
-
     <div className="home-container">
-      
       {/* 1. 검색창 섹션 */}
       <div className="search-section">
         <SearchHeader />
@@ -77,17 +72,6 @@ const Home = () => {
           <Recommend />
         </section>
 
-<<<<<<< HEAD
-        {/* 4. 내 서재 섹션 (필요 시 주석 해제) */}
-        {/* <section className="section-spacing">
-          <div className="flex-header">
-            <h2 className="section-title">현재 읽고 있는 책</h2>
-            <Link to="/mypage" className="more-link">내 서재 가기 →</Link>
-          </div>
-          <Mylibrary />
-        </section> 
-        */}
-=======
         {/* 3. 읽고 있는 책들 (서재) 섹션 */}
         <section className={`shelf-section`}>
           <div className="shelf-header">
@@ -97,7 +81,6 @@ const Home = () => {
           </div>
           <div className="shelf-content">{renderBookGrid(readingBooks)}</div>
         </section>
->>>>>>> e1c055a3cd74199183c7ae52c3a76c05d6f29c7a
       </main>
     </div>
   );
