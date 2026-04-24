@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import "./BookDetail.scss";
 import useStore from "../Store/store";
 import { Link } from "react-router-dom";
@@ -14,9 +14,10 @@ const BookDetail = ({ isbn }) => {
     useStore();
 
   // 현재 책이 서재에 있는지 확인
-  const currentBookInStore = booksList.find(
-    (item) => item.isbn === selectedBook?.isbn,
-  );
+  // 현재 책을 가져올때
+  const currentBookInStore = useMemo(() => {
+    return booksList.find((item) => item.isbn === selectedBook?.isbn);
+  }, [booksList, selectedBook?.isbn]);
 
   // 화면에 표시할 별점 (서재에 있으면 스토어 값, 없으면 0)
   const displayRating = currentBookInStore ? currentBookInStore.rating : 0;
@@ -25,10 +26,6 @@ const BookDetail = ({ isbn }) => {
 
   const fetchBookData = useCallback(async () => {
     try {
-      // const loc = location.href;
-      // const isbn = loc.substring(loc.indexOf("=") + 1);
-      // console.log(location);
-
       const response01 = await axios.get(
         "https://dapi.kakao.com/v3/search/book",
         {
@@ -55,15 +52,15 @@ const BookDetail = ({ isbn }) => {
               query: authorName,
               sort: "accuracy",
               page: 1,
-              size: 10,
+              size: 7,
             },
             headers: { Authorization: KAKAO_KEY },
           },
         );
 
-        const filteredBooks = response02.data.documents
-          .filter((book) => book.isbn !== mainBook.isbn)
-          .slice(0, 6);
+        const filteredBooks = response02.data.documents.filter(
+          (book) => book.isbn !== mainBook.isbn,
+        );
 
         setAuthorBooks(filteredBooks);
       }
@@ -76,6 +73,32 @@ const BookDetail = ({ isbn }) => {
     fetchBookData();
   }, [fetchBookData]);
 
+  // 서재에 잭이 없으면 알람창
+  const handleRatingClick = useCallback(
+    (num) => {
+      if (!currentBookInStore) {
+        alert("먼저 '내 서재에 담기'를 눌러주세요!");
+        return;
+      }
+      const newRating = displayRating === num ? 0 : num;
+      updateRating(selectedBook.isbn, newRating);
+    },
+    [currentBookInStore, displayRating, updateRating, selectedBook?.isbn],
+  );
+
+  const fullText = selectedBook?.contents || "상세 설명이 없습니다.";
+  const shortText = fullText.substring(0, 100);
+  const isLongText = fullText.length > 100;
+
+  const handleRemove = useCallback(() => {
+    if (window.confirm("이 책을 서재에서 삭제하시겠습니까?")) {
+      removeBook(selectedBook?.isbn);
+    }
+  }, [removeBook, selectedBook?.isbn]);
+
+  console.log(selectedBook);
+  console.log(booksList);
+
   if (!selectedBook) {
     return (
       <div className="book-detail-container">
@@ -83,29 +106,6 @@ const BookDetail = ({ isbn }) => {
       </div>
     );
   }
-
-  // 별점 클릭 핸들러
-  const handleRatingClick = (num) => {
-    if (!currentBookInStore) {
-      alert("먼저 '내 서재에 담기'를 눌러주세요!");
-      return;
-    }
-    const newRating = displayRating === num ? 0 : num;
-    updateRating(selectedBook.isbn, newRating);
-  };
-
-  const fullText = selectedBook.contents || "상세 설명이 없습니다.";
-  const shortText = fullText.substring(0, 100);
-  const isLongText = fullText.length > 100;
-
-  const handleRemove = () => {
-    if (window.confirm("이 책을 서재에서 삭제하시겠습니까?")) {
-      removeBook(selectedBook.isbn);
-    }
-  };
-
-  console.log(selectedBook);
-  console.log(booksList);
 
   return (
     <div className="book-detail-container">
@@ -125,7 +125,7 @@ const BookDetail = ({ isbn }) => {
             <strong>출판사:</strong> {selectedBook.publisher}
           </p>
 
-          {/* 별점 선택 영역 - 스토어와 연결됨 */}
+          {/* 별점 선택 스토어와 연결됨 */}
           <div className="rating-section">
             <div className="star-container">
               {[1, 2, 3, 4, 5].map((num) => (

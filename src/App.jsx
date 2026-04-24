@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import SearchHeader from "./components/SearchHeader";
 
@@ -11,17 +11,28 @@ const MyPage = lazy(() => import("./pages/MyPage/MyPage"));
 // const Library = lazy(() => import("./pages"));
 // const Books = lazy(() => import("./pages/Books"));
 const Book = lazy(() => import("./pages/BookDetailPage/BookDetailPage"));
-const Login = lazy(() => import("./pages/Login"));
+const Login = lazy(() => import("./pages/Login/Login"));
 const Recommend = lazy(() => import("./pages/Recommend"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const App = () => {
+  const location = useLocation();
+
+  const isLoginPage =
+    location.pathname === "/login" || location.pathname === "/";
+
   return (
     <Suspense fallback={<div style={{ padding: 16 }}>로딩 중...</div>}>
-      <Header />
-      <SearchHeader />
+      {!isLoginPage && (
+        <>
+          <Header />
+          <SearchHeader />
+        </>
+      )}
+
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/Home" element={<Home />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/mypage" element={<MyPage />}>
           {/* <Route path="profile" element={<Profile />} />
@@ -29,7 +40,7 @@ const App = () => {
           <Route path="statistics" element={<StatsPage />} />
         </Route>
         <Route path="/book" element={<Book />} />
-        <Route path="/login" element={<Login />} />
+        {/* <Route path="/login" element={<Login />} /> */}
         <Route path="/recommend" element={<Recommend />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

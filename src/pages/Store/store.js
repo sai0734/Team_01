@@ -88,7 +88,13 @@ const useStore = create((set, get) => ({
       return {
         booksList: [
           ...state.booksList,
-          { ...book, status: "안 읽은 책", readDate: "", rating: 0, memos: [] },
+          {
+            ...book,
+            status: "안 읽은 책",
+            readDate: "",
+            rating: null,
+            memos: [],
+          },
         ],
       };
     }),

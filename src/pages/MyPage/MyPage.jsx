@@ -7,13 +7,11 @@ import BookCalendar from "../../components/BookCalendar";
 const MyPage = () => {
   const { booksList } = useStore();
 
-  //AI (제미나이님이...)
-
-  // 각 섹션의 펼침/닫힘 상태 관리
+  // 각 구다리 별 펼침/닫힘 상태 관리
   const [openSections, setOpenSections] = useState({
-    unread: true, // 안 읽은 책 (기본값: 열림)
+    unread: true, // 안 읽은 책
     reading: true, // 읽고 있는 책
-    read: false, // 읽은 책
+    read: true, // 읽은 책 (기본은 안열려 있는걸로)
   });
 
   // 섹션 토글 함수
