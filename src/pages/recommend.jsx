@@ -15,7 +15,6 @@ const Recommend = () => {
 
   // Store에서 데이터 가져오기 (비구조화 할당 방식 확인 필요)
   const { booksList } = useStore(); 
-
   const KAKAO_API_KEY = "895559b4f45cd858c4fcd679aa17c38b";
   const GEMINI_API_KEY = "AIzaSyDimUJfqFc0uIyE_vd0iQztG7AucPe3aE0"; 
 

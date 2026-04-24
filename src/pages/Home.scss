@@ -1,83 +1,102 @@
-// 변수 설정
-$primary-color: #4285f4;
-$text-dark: #222;
-$text-main: #333;
-$text-muted: #666;
-$text-nav: #555;
-$border-color: #eee;
-
 .home-container {
-  // Recommend.scss의 .container와 공통으로 쓰거나 독자적으로 사용
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
+  font-family: "Pretendard", sans-serif;
 
   .home-header {
     text-align: center;
     margin-bottom: 40px;
-    padding: 20px 0;
 
-    .title {
-      font-size: 2.2rem;
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #1a1a1a;
       margin-bottom: 10px;
-      color: $text-main;
+      letter-spacing: -1px;
     }
 
-    .subtitle {
-      color: $text-muted;
+    p {
       font-size: 1.1rem;
-    }
-  }
-
-  .home-nav {
-    display: flex;
-    gap: 25px;
-    justify-content: center;
-    margin-bottom: 40px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid $border-color;
-
-    .nav-link {
-      text-decoration: none;
-      color: $text-nav;
-      font-weight: 600;
-      font-size: 15px;
-      transition: color 0.2s;
-
-      &:hover {
-        color: $primary-color;
-      }
+      color: #666;
     }
   }
 
   .home-main {
-    .section-spacing {
-      margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+  }
+
+  .shelf-section {
+    .shelf-header {
+      margin-bottom: 25px;
+      border-bottom: 2px solid #1a1a1a;
+      padding-bottom: 10px;
+
+      h3 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #1a1a1a;
+
+        span {
+          color: #007bff;
+          font-size: 1.2rem;
+        }
+      }
     }
 
-    .flex-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 10px;
-    }
+    .book-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 30px;
 
-    .section-title {
-      font-size: 1.4rem;
-      font-weight: bold;
-      color: $text-dark;
-      margin-top: 0;
-      margin-bottom: 20px;
-    }
+      .book-item {
+        background: #fff;
+        transition: transform 0.3s ease;
 
-    .more-link {
-      font-size: 14px;
-      color: $primary-color;
-      text-decoration: none;
-      font-weight: 500;
+        &:hover {
+          transform: translateY(-10px);
+        }
 
-      &:hover {
-        text-decoration: underline;
+        img {
+          width: 100%;
+          aspect-ratio: 2 / 3;
+          object-fit: cover;
+          border-radius: 8px;
+          box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .book-info {
+          margin-top: 12px;
+          text-align: center;
+
+          .book-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #333;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          .book-rating {
+            font-size: 0.85rem;
+            color: #ffd700;
+            font-weight: 700;
+            margin-top: 4px;
+          }
+        }
+      }
+
+      .empty-msg {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 60px;
+        background: #f8f9fa;
+        border-radius: 12px;
+        color: #999;
+        font-size: 1rem;
       }
     }
   }
