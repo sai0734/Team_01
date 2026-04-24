@@ -102,48 +102,56 @@ const SearchPage = () => {
 
           return (
             <article key={index} className="book_item">
-              <a href={book.url + "&tab=selling"} target="_blank">
-                <div className="book-img">
-                  <img
-                    src={
-                      book.thumbnail ||
-                      "https://via.placeholder.com/120x170?text=No+Image"
-                    }
-                    alt={book.title}
-                  />
-                </div>
-              </a>
+              <div
+                className="book-img"
+                onClick={() => {
+                  openModal();
+                  setSelectedBook(book);
+                }}
+              >
+                <img
+                  src={
+                    book.thumbnail ||
+                    "https://via.placeholder.com/120x170?text=No+Image"
+                  }
+                  alt={book.title}
+                />
+              </div>
 
-              <a href={book.url + "&tab=selling"} target="_blank">
-                <div className="book-info">
-                  <h2 className="book-title">{book.title}</h2>
+              <div
+                className="book-info"
+                onClick={() => {
+                  openModal();
+                  setSelectedBook(book);
+                }}
+              >
+                <h2 className="book-title">{book.title}</h2>
 
-                  <p className="book-meta">
-                    <span>{book.authors.join(", ")} 저</span> |{" "}
-                    <span>{book.publisher}</span> |{" "}
-                    <span>{book.datetime.substring(0, 4)}년</span>
-                  </p>
+                <p className="book-meta">
+                  <span>{book.authors.join(", ")} 저</span> |{" "}
+                  <span>{book.publisher}</span> |{" "}
+                  <span>{book.datetime.substring(0, 4)}년</span>
+                </p>
 
-                  <p className="book-description">
-                    {book.contents
-                      ? `${book.contents.substring(0, 150)}...`
-                      : "내용 요약이 없습니다."}
-                  </p>
+                <p className="book-description">
+                  {book.contents
+                    ? `${book.contents.substring(0, 150)}...`
+                    : "내용 요약이 없습니다."}
+                </p>
 
-                  <div className="book-price">
-                    <span className="discount-price">
-                      {book.sale_price > 0
-                        ? `${book.sale_price.toLocaleString()}원`
-                        : "가격 정보 없음"}
+                <div className="book-price">
+                  <span className="discount-price">
+                    {book.sale_price > 0
+                      ? `${book.sale_price.toLocaleString()}원`
+                      : "가격 정보 없음"}
+                  </span>
+                  {book.price !== book.sale_price && (
+                    <span className="original-price">
+                      {book.price.toLocaleString()}원
                     </span>
-                    {book.price !== book.sale_price && (
-                      <span className="original-price">
-                        {book.price.toLocaleString()}원
-                      </span>
-                    )}
-                  </div>
+                  )}
                 </div>
-              </a>
+              </div>
 
               <div className="book-action" style={{ alignSelf: "center" }}>
                 {/* 모달창 열기 */}

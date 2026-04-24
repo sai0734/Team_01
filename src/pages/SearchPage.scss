@@ -6,6 +6,10 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  :hover {
+    cursor: pointer;
+  }
 }
 .book_item {
   display: flex;

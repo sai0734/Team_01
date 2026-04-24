@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 // 예: import { Link } from "react-router-dom";
 import "./recommend.scss"; // 혹은 CSS 파일
 import useStore from "./Store/store";
+import { getRecommendation } from "./OllamaRecommend";
+import axios from "axios";
 
 const Recommend = () => {
   // 만약 추천 도서 데이터가 있다면 여기서 관리하거나 props로 받으세요.
@@ -80,72 +82,72 @@ const Recommend = () => {
   }, [booksList]);
 
   // --- 기능 2: 고민 기반 AI 검색 ---
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!userWorry.trim()) return;
-
-    setIsSearching(true);
-    setAiKeyword("고민 분석 중...");
-    try {
-      const result = await getRecommendation(booksList, userWorry);
-      setAiKeyword(result);
-    } catch (error) {
-      console.error("검색 오류:", error);
-    } finally {
-      setIsSearching(false);
-    }
-  };
-  // const handleSmartSearch = async (e) => {
+  // const handleSubmit = async (e) => {
   //   e.preventDefault();
   //   if (!userWorry.trim()) return;
 
   //   setIsSearching(true);
   //   setAiKeyword("고민 분석 중...");
-
   //   try {
-  //     let searchKeyword = userWorry;
-
-  //     const geminiRes = await fetch(
-  //       `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
-  //       {
-  //         method: "POST",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify({
-  //           contents: [
-  //             {
-  //               parts: [
-  //                 {
-  //                   text: `고민: "${userWorry}"\n이 고민에 위로가 되거나 해결책이 될 책을 찾으려 해. 검색어 딱 하나만 알려줘.`,
-  //                 },
-  //               ],
-  //             },
-  //           ],
-  //         }),
-  //       },
-  //     );
-
-  //     const geminiData = await geminiRes.json();
-  //     if (geminiData.candidates && geminiData.candidates[0].content) {
-  //       searchKeyword = geminiData.candidates[0].content.parts[0].text.trim();
-  //     }
-  //     setAiKeyword(searchKeyword);
-
-  //     const kakaoRes = await axios.get(
-  //       "https://dapi.kakao.com/v3/search/book",
-  //       {
-  //         params: { query: searchKeyword, size: 8 },
-  //         headers: { Authorization: `KakaoAK ${KAKAO_API_KEY}` },
-  //       },
-  //     );
-
-  //     // kakaoData가 아니라 kakaoRes.data를 사용해야 함
-  //     setResults(kakaoRes.data.documents || []);
+  //     const result = await getRecommendation(booksList, userWorry);
+  //     setAiKeyword(result);
   //   } catch (error) {
   //     console.error("검색 오류:", error);
   //   } finally {
   //     setIsSearching(false);
   //   }
   // };
+  const handleSmartSearch = async (e) => {
+    e.preventDefault();
+    if (!userWorry.trim()) return;
+
+    setIsSearching(true);
+    setAiKeyword("고민 분석 중...");
+
+    try {
+      let searchKeyword = userWorry;
+
+      const geminiRes = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [
+                  {
+                    text: `고민: "${userWorry}"\n이 고민에 위로가 되거나 해결책이 될 책을 찾으려 해. 검색어 딱 하나만 알려줘.`,
+                  },
+                ],
+              },
+            ],
+          }),
+        },
+      );
+
+      const geminiData = await geminiRes.json();
+      if (geminiData.candidates && geminiData.candidates[0].content) {
+        searchKeyword = geminiData.candidates[0].content.parts[0].text.trim();
+      }
+      setAiKeyword(searchKeyword);
+
+      const kakaoRes = await axios.get(
+        "https://dapi.kakao.com/v3/search/book",
+        {
+          params: { query: searchKeyword, size: 8 },
+          headers: { Authorization: `KakaoAK ${KAKAO_API_KEY}` },
+        },
+      );
+
+      // kakaoData가 아니라 kakaoRes.data를 사용해야 함
+      setResults(kakaoRes.data.documents || []);
+    } catch (error) {
+      console.error("검색 오류:", error);
+    } finally {
+      setIsSearching(false);
+    }
+  };
 
   return (
     <div className="recommend-container">
@@ -184,7 +186,7 @@ const Recommend = () => {
       <section className="recommend-section">
         <h3>💡 요즘 어떤 고민이 있으신가요?</h3>
         <p>고민을 분석하여 해결에 도움을 줄 책을 찾아드립니다.</p>
-        <form onSubmit={handleSubmit} className="search-form">
+        <form onSubmit={handleSmartSearch} className="search-form">
           <textarea
             rows="2"
             placeholder="예: 인간관계 때문에 너무 스트레스 받아요."
