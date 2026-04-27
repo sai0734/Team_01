@@ -154,7 +154,7 @@ const extractKoreanWord = (text) => {
   };
 ```
 
-## 대표 문제사항
+## 문제해결
 Modal창을 사용하여 생긴 문제점 2가지
 1. 상세페이지에서 책의 isbn(코드)값을 쿼리스트링으로 받아오려 했으나 Modal창은 주소가 변하지 않음 <br>
  -> Modal창일 경우 props를 이용하여 자식에 속한 상세페이지에게 전달. <br>
@@ -162,6 +162,7 @@ Modal창을 사용하여 생긴 문제점 2가지
 <img src="./src/image/solution.png">
 
 ## Flow & UI
+전체 Flow
 <img src="./src/image/Flow.png"> <br>
 | 로그인 | CRUD |
 | :-: | :-: |
