@@ -136,69 +136,71 @@ const BookCalendar = () => {
         tileContent={tileContent}
       />
       {/* 독서 통계 */}
-      <div className="readBooksLast30Days">
-        지난 30일 독서량: {last30Count}권
-      </div>
-      <div className="monthlyStats">
-        <div className="selectYear">
-          <select
-            id="yearSelection"
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(Number(e.target.value))}
-          >
-            {years.map((year) => (
-              <option key={year} value={year}>
-                {year}년
-              </option>
-            ))}
-          </select>
-          <label htmlFor="yearSelection">년 월별 통계</label>
+      <div className="rightPanel">
+        <div className="readBooksLast30Days">
+          지난 30일 독서량: {last30Count}권
         </div>
-        <ResponsiveContainer width="100%" height={300}>
-          <BarChart data={bookChartData}>
-            <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#6b7280" }} />
-            <YAxis
-              tick={{ fontSize: 12, fill: "#6b7280" }}
-              domain={[0, (dataMax) => dataMax * 1.2]}
-            />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#fff",
-                border: "1px solid #e5e7eb",
-                borderRadius: "10px",
-                fontSize: "12px",
-              }}
-            />
-            <Bar dataKey="count" fill="#3b82f6" />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-      {/* 사용자 별점 통계 */}
-      <div className="averageRating">내 평점 평균: {averageRating}점</div>
-      <div className="ratingDistribution">
-        <p>내 별점 분포</p>
-        <ResponsiveContainer width="100%" height={300}>
-          <LineChart data={ratingChartData}>
-            <XAxis
-              dataKey="rating"
-              tick={{ fontSize: 12, fill: "#6b7280" }}
-              padding={{ left: 40, right: 40 }}
-            />
-            <YAxis
-              tick={{ fontSize: 12, fill: "#6b7280" }}
-              domain={[0, (dataMax) => dataMax * 1.2]}
-            />
-            <Tooltip
-              contentStyle={{
-                backgroundColor: "#fff",
-                border: "1px solid #e5e7eb",
-                borderRadius: "10px",
-                fontSize: "12px",
-              }}
-            />
-            <Line dataKey="count" stroke="#3b82f6" strokeWidth={2} />
-          </LineChart>
-        </ResponsiveContainer>
+        <div className="monthlyStats">
+          <div className="selectYear">
+            <select
+              id="yearSelection"
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(Number(e.target.value))}
+            >
+              {years.map((year) => (
+                <option key={year} value={year}>
+                  {year}년
+                </option>
+              ))}
+            </select>
+            <label htmlFor="yearSelection">년 월별 통계</label>
+          </div>
+          <ResponsiveContainer width="100%" height="85%">
+            <BarChart data={bookChartData}>
+              <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#6b7280" }} />
+              <YAxis
+                tick={{ fontSize: 12, fill: "#6b7280" }}
+                domain={[0, (dataMax) => dataMax * 1.2]}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#fff",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: "10px",
+                  fontSize: "12px",
+                }}
+              />
+              <Bar dataKey="count" fill="#3b82f6" />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+        {/* 사용자 별점 통계 */}
+        <div className="averageRating">내 평점 평균: {averageRating}점</div>
+        <div className="ratingDistribution">
+          <p>내 별점 분포</p>
+          <ResponsiveContainer width="100%" height="85%">
+            <LineChart data={ratingChartData}>
+              <XAxis
+                dataKey="rating"
+                tick={{ fontSize: 12, fill: "#6b7280" }}
+                padding={{ left: 40, right: 40 }}
+              />
+              <YAxis
+                tick={{ fontSize: 12, fill: "#6b7280" }}
+                domain={[0, (dataMax) => dataMax * 1.2]}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "#fff",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: "10px",
+                  fontSize: "12px",
+                }}
+              />
+              <Line dataKey="count" stroke="#3b82f6" strokeWidth={2} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </div>
     </div>
   );

@@ -27,12 +27,10 @@ export async function getRecommendation(booksList, concern) {
     ${concern}
 
     이 노트들을 기반으로 사용자의 사고 패턴을 분석하고,
-    가장 적합한 책 1~3권을 추천해라.
-
-    반드시 다음 규칙:
-    - 노트 내용을 근거로 추천할 것
-    - JSON으로만 출력
-    - 이미 읽은 책은 제외하고 추천할 것
+    책을 추천할건데
+    너가 키워드를 하나 뱉어내면
+    그걸 kakao api에 검색해서 검색 결과 상위 3개를 추천할거야
+    이 노트들을 기반으로 사용자의 사고 패턴을 분석해서 
     `;
 
   const res = await fetch("http://localhost:11434/api/generate", {

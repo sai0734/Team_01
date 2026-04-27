@@ -71,7 +71,7 @@ const Recommend = () => {
     setIsLoading(false);
   };
 
-  // 📦 핵심 렌더 
+  // 📦 핵심 렌더
   const renderBooks = (books) => {
     if (isLoading) return <p>불러오는 중...</p>;
     if (!books || books.length === 0) return null;
