@@ -74,8 +74,6 @@ const Recommend = () => {
 
     setIsLoading(true);
     const tempWorry = await getRecommendation(booksList, userWorry);
-    console.log(tempWorry);
-    console.log(extractKoreanWord(tempWorry));
     const books = await fetchBooks(extractKoreanWord(tempWorry) + " 책");
     setWorryResults(books);
     setIsLoading(false);
