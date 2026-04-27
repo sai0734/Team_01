@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useStore from "../Store/store"; // 경로 확인 필요!
 import "./MyPage.scss";
 import { Link } from "react-router-dom";
 import BookCalendar from "../../components/BookCalendar";
+import useScroll from "../../components/useScroll";
 
 const MyPage = () => {
+  const scrollTop = useScroll();
+
+  useEffect(() => {
+    scrollTop();
+  }, [scrollTop]);
+
   const { booksList } = useStore();
 
   // 각 구다리 별 펼침/닫힘 상태 관리

@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Recommend from "./recommend";
 import Mylibrary from "./mylibrary";
 import SearchHeader from "../components/SearchHeader";
 import useStore from "./Store/store"; // 스토어 임포트 유지
 import "./Home.scss"; // 스타일 임포트 유지
+import useScroll from "../components/useScroll";
 
 const Home = () => {
+  const scrollTop = useScroll();
+
+  useEffect(() => {
+    scrollTop();
+  }, [scrollTop]);
+
   const { booksList } = useStore();
 
   // 읽고 있는 책 필터링
@@ -63,11 +70,11 @@ const Home = () => {
             <h3>
               읽고 있는 책 <span>({readingBooks.length})</span>
             </h3>
-            <Link to="/mypage" className="more-link">내 서재 가기 →</Link>
+            <Link to="/mypage" className="more-link">
+              내 서재 가기 →
+            </Link>
           </div>
-          <div className="shelf-content">
-            {renderBookGrid(readingBooks)}
-          </div>
+          <div className="shelf-content">{renderBookGrid(readingBooks)}</div>
         </section>
       </main>
     </div>
