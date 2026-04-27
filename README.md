@@ -22,7 +22,7 @@
 |---|---|:--|
 | 황용현 <br> (팀장) | [@sai0734](https://github.com/sai0734) | 전역 Store 데이터관리 (Zustand) <br/> 외부 API 연동 ( Kakao Book Search API) <br/> CRUD 구성 <br/> 커스텀훅 구현 |
 | 양정훈 | [@yangjeonghun-997](https://github.com/yangjeonghun-997) | SPA 구성 (Router, lazy, Suspense) <br/> 외부 API 연동 ( Kakao Book Search API) <br/> 무한 스크롤 <br/> 도서 추천 시스템|
-| 김지희 | [@JeeheeK1013](https://github.com/JeeheeK1013) | 외부 API 연동 ( Kakao Book Search API) |
+| 김지희 | [@JeeheeK1013](https://github.com/JeeheeK1013) | 외부 API 연동 ( Kakao Book Search API) <br/> 전체 CSS 스타일링 |
 
 [팀 노션](https://www.notion.so/Team_01-348530c3f88b804cad05d8ad4806b925)
 
