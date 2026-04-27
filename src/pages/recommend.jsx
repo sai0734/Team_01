@@ -12,6 +12,7 @@ const Recommend = () => {
   const [worryResults, setWorryResults] = useState([]);
   const [historyResults, setHistoryResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isBestseller, setIsBestseller] = useState(true);
 
   const KAKAO_API_KEY = "895559b4f45cd858c4fcd679aa17c38b";
 
@@ -70,6 +71,7 @@ const Recommend = () => {
   // 검색
   const handleSearch = async (e) => {
     e.preventDefault();
+    setIsBestseller(false);
     if (!userWorry.trim()) return;
 
     setIsLoading(true);
@@ -140,6 +142,7 @@ const Recommend = () => {
 
       {/* ⭐ 검색 결과는 따로 */}
       <section className="recommend-section">
+        {isBestseller && <p>베스트셀러</p>}
         {renderBooks(worryResults)}
       </section>
     </div>
