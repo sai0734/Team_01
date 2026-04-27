@@ -155,7 +155,7 @@ const BookCalendar = () => {
             </select>
             <label htmlFor="yearSelection">년 월별 통계</label>
           </div>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height="85%">
             <BarChart data={bookChartData}>
               <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#6b7280" }} />
               <YAxis
@@ -178,7 +178,7 @@ const BookCalendar = () => {
         <div className="averageRating">내 평점 평균: {averageRating}점</div>
         <div className="ratingDistribution">
           <p>내 별점 분포</p>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height="85%">
             <LineChart data={ratingChartData}>
               <XAxis
                 dataKey="rating"

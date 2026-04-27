@@ -62,6 +62,8 @@ const MyPage = () => {
     <div className="mypage-container">
       <h2 className="page-title">나의 서재</h2>
 
+      <BookCalendar />
+
       {/* 1. 안 읽은 책 섹션 */}
       <section
         className={`shelf-section ${openSections.unread ? "is-open" : ""}`}
@@ -106,7 +108,6 @@ const MyPage = () => {
           <div className="shelf-content">{renderBookGrid(readBooks)}</div>
         )}
       </section>
-      <BookCalendar />
     </div>
   );
 };
