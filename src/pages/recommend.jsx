@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./recommend.scss";
 import useStore from "./Store/store";
-import { getRecommendation } from "./OllamaRecommend";
-import axios from "axios";
 
 const Recommend = () => {
   const { booksList } = useStore();
@@ -62,73 +60,21 @@ const Recommend = () => {
     loadHistory();
   }, [booksList]);
 
-  // --- 기능 2: 고민 기반 AI 검색 ---
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   if (!userWorry.trim()) return;
-
-  //   setIsSearching(true);
-  //   setAiKeyword("고민 분석 중...");
-  //   try {
-  //     const result = await getRecommendation(booksList, userWorry);
-  //     setAiKeyword(result);
-  //   } catch (error) {
-  //     console.error("검색 오류:", error);
-  //   } finally {
-  //     setIsSearching(false);
-  //   }
-  // };
-  const handleSmartSearch = async (e) => {
+  // 검색
+  const handleSearch = async (e) => {
     e.preventDefault();
     if (!userWorry.trim()) return;
 
-    setIsSearching(true);
-    setAiKeyword("고민 분석 중...");
-
-    try {
-      let searchKeyword = userWorry;
-
-      const geminiRes = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${GEMINI_API_KEY}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            contents: [
-              {
-                parts: [
-                  {
-                    text: `고민: "${userWorry}"\n이 고민에 위로가 되거나 해결책이 될 책을 찾으려 해. 검색어 딱 하나만 알려줘.`,
-                  },
-                ],
-              },
-            ],
-          }),
-        },
-      );
-
-      const geminiData = await geminiRes.json();
-      if (geminiData.candidates && geminiData.candidates[0].content) {
-        searchKeyword = geminiData.candidates[0].content.parts[0].text.trim();
-      }
-      setAiKeyword(searchKeyword);
-
-      const kakaoRes = await axios.get(
-        "https://dapi.kakao.com/v3/search/book",
-        {
-          params: { query: searchKeyword, size: 8 },
-          headers: { Authorization: `KakaoAK ${KAKAO_API_KEY}` },
-        },
-      );
-
-      // kakaoData가 아니라 kakaoRes.data를 사용해야 함
-      setResults(kakaoRes.data.documents || []);
-    } catch (error) {
-      console.error("검색 오류:", error);
-    } finally {
-      setIsSearching(false);
-    }
+    setIsLoading(true);
+    const books = await fetchBooks(userWorry + " 책");
+    setWorryResults(books);
+    setIsLoading(false);
   };
+
+  // 📦 핵심 렌더
+  const renderBooks = (books) => {
+    if (isLoading) return <p>불러오는 중...</p>;
+    if (!books || books.length === 0) return null;
 
     return (
       <div className="book-result-grid">
@@ -171,12 +117,12 @@ const Recommend = () => {
 
       {/* 💡 검색 */}
       <section className="recommend-section">
-        <h3>💡 요즘 어떤 고민이 있으신가요?</h3>
-        <p>고민을 분석하여 해결에 도움을 줄 책을 찾아드립니다.</p>
-        <form onSubmit={handleSmartSearch} className="search-form">
-          <textarea
-            rows="2"
-            placeholder="예: 인간관계 때문에 너무 스트레스 받아요."
+        <h3>💡 고민을 해결할 책을 찾아보세요</h3>
+
+        <form onSubmit={handleSearch} className="search-form">
+          <input
+            type="text"
+            placeholder="예: 인간관계, 자기계발"
             value={userWorry}
             onChange={(e) => setUserWorry(e.target.value)}
           />
