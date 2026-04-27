@@ -22,7 +22,7 @@ LLM이 핵심 주제를 추출하고,
 
 | 이름 | GitHub | 역할 |
 |---|---|:--|
-| 황용현 <br> (팀장) | [@sai0734](https://github.com/sai0734) | 역할 | 전역 Store 데이터 (Zustand) <br/> 외부 API 연동 ( Kakao Book Search API) <br/> CRUD 구성 |
+| 황용현 <br> (팀장) | [@sai0734](https://github.com/sai0734) | 전역 Store 데이터관리 (Zustand) <br/> 외부 API 연동 ( Kakao Book Search API) <br/> CRUD 구성 <br/> 커스텀훅 설정 |
 | 양정훈 | [@yangjeonghun-997](https://github.com/yangjeonghun-997) | SPA 구성 (Router, lazy, Suspense) <br/> 외부 API 연동 ( Kakao Book Search API) <br/> 무한 스크롤 |
 | 김지희 | [@JeeheeK1013](https://github.com/JeeheeK1013) | 역할 |
 
@@ -155,6 +155,13 @@ const extractKoreanWord = (text) => {
     return match ? match[0] : null;
   };
 ```
+
+## 대표 문제사항
+Modal창을 사용하여 생긴 문제점 2가지
+1. 상세페이지에서 책의 isbn(코드)값을 쿼리스트링으로 받아오려 했으나 Modal창은 주소가 변하지 않음 <br>
+ -> Modal창일 경우 props를 이용하여 자식에 속한 상세페이지에게 전달. <br>
+ -> 일반창일 경우 useSearchParams()를 사용하여 쿼리스트링으로 책의 isbn(코드)값을 전달 <br>
+<img src="./src/image/solution.png">
 
 ## Flow & UI
 
