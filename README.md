@@ -21,7 +21,7 @@
 | 이름 | GitHub | 역할 |
 |---|---|:--|
 | 황용현 <br> (팀장) | [@sai0734](https://github.com/sai0734) | 전역 Store 데이터관리 (Zustand) <br/> 외부 API 연동 ( Kakao Book Search API) <br/> CRUD 구성 <br/> 커스텀훅 구현 |
-| 양정훈 | [@yangjeonghun-997](https://github.com/yangjeonghun-997) | SPA 구성 (Router, lazy, Suspense) <br/> 외부 API 연동 ( Kakao Book Search API) <br/> 무한 스크롤 |
+| 양정훈 | [@yangjeonghun-997](https://github.com/yangjeonghun-997) | SPA 구성 (Router, lazy, Suspense) <br/> 외부 API 연동 ( Kakao Book Search API) <br/> 무한 스크롤 <br/> 도서 추천 시스템|
 | 김지희 | [@JeeheeK1013](https://github.com/JeeheeK1013) | 외부 API 연동 ( Kakao Book Search API) |
 
 [팀 노션](https://www.notion.so/Team_01-348530c3f88b804cad05d8ad4806b925)
@@ -160,8 +160,12 @@ Modal창을 사용하여 생긴 문제점 2가지
 
 ## Flow & UI
 | 로그인 | CRUD |
-| --- | --- |
+| :-: | :-: |
 | <img src="./src/image/Login.png"> | <img src="./src/image/CRUD.png"> |
+| **검색페이지** | **통계페이지** |
+| <img src="./src/image/FlowChart_SearchPage.png"> | <img src="./src/image/FlowChart_BookCalendar.png"> |
+| **Ollama** |  |
+| <img src="./src/image/FlowChart_Ollama.png"> |  |
 
 
 ## 마무리
