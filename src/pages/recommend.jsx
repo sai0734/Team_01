@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./recommend.scss";
 import useStore from "./Store/store";
+import { getRecommendation } from "./OllamaRecommend";
 
 const Recommend = () => {
   const { booksList } = useStore();
@@ -60,13 +61,20 @@ const Recommend = () => {
     loadHistory();
   }, [booksList]);
 
+  // 한글 추출
+  const extractKoreanWord = (text) => {
+    const match = text.match(/[가-힣]+/g);
+    return match ? match[0] : null;
+  };
+
   // 검색
   const handleSearch = async (e) => {
     e.preventDefault();
     if (!userWorry.trim()) return;
 
     setIsLoading(true);
-    const books = await fetchBooks(userWorry + " 책");
+    const tempWorry = await getRecommendation(booksList, userWorry);
+    const books = await fetchBooks(extractKoreanWord(tempWorry) + " 책");
     setWorryResults(books);
     setIsLoading(false);
   };
