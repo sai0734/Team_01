@@ -34,6 +34,7 @@ LLM이 핵심 주제를 추출하고,
 - 외부 API: Kakao Book Search API
 - AI: Ollama model Llama3
 - 기타: SPA, 무한 스크롤, 반응형 웹
+- 전역 데이터 관리 : Zstand
 
 ## 사용 라이브러리 및 버전
 
