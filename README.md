@@ -125,6 +125,8 @@ Before
 <img src="./src/assets/infiniteScroll_before.png">
 After
 <img src="./src/assets/infiniteScroll_after.png">
+적용 화면
+<img src="./src/image/Scroll.gif">
 
 ### zustand 상태 관리
 
