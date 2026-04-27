@@ -165,6 +165,10 @@ Modal창을 사용하여 생긴 문제점 2가지
 <img src="./src/image/solution.png">
 
 ## Flow & UI
+| 로그인 | CRUD |
+| --- | --- |
+| <img src="./src/image/Login.png"> | <img src="./src/image/CRUD.png"> |
+
 
 ## 마무리
 
