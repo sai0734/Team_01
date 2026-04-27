@@ -23,8 +23,10 @@ LLM이 핵심 주제를 추출하고,
 | 이름 | GitHub | 역할 |
 |---|---|:--|
 | 황용현 <br> (팀장) | [@sai0734](https://github.com/sai0734) | 역할 |
-| 양정훈 | [@yangjeonghun-997](https://github.com/yangjeonghun-997) | 역할 |
+| 양정훈 | [@yangjeonghun-997](https://github.com/yangjeonghun-997) | SPA 구성 (Router, lazy, Suspense) <br/> 외부 API 연동 ( Kakao Book Search API) <br/> 무한 스크롤 |
 | 김지희 | [@JeeheeK1013](https://github.com/JeeheeK1013) | 역할 |
+
+[팀 노션](https://www.notion.so/Team_01-348530c3f88b804cad05d8ad4806b925)
 
 ## 기술 스택
 
@@ -84,8 +86,8 @@ ollama run llama3
 
 | 등록(Create) / 조회(Read) / 수정(Update) | 삭제(Delete) |
 | --- | --- |
-| 이미지 | 이미지 |
-| 이미지 | 이미지 |
+| <img src="./src/assets/crud1.png"> | <img src="./src/assets/crud3.png"> |
+| <img src="./src/assets/crud2.png"> | <img src="./src/assets/crud4.png"> |
 
 ### SPA (Single Page Application)
 
@@ -119,6 +121,11 @@ ollama run llama3
 
 - 스크롤에 따라 필요한 컴포넌트 렌더링
 
+Before
+<img src="./src/assets/infiniteScroll_before.png">
+After
+<img src="./src/assets/infiniteScroll_after.png">
+
 ### zustand 상태 관리
 
 > ```zustand``` 라이브러리를 사용하여 전역 데이터를 관리합니다.
@@ -136,9 +143,16 @@ ollama run llama3
 
 Ollama는 사용자의 서재 내 책 목록, 기록한 노트, 현재의 고민을 전달받아  
 분석 후 책을 추천하는데 가장 적합한 키워드를 산출합니다.  
+<img src="./src/assets/Ollama_example.png">
 이렇게 산출된 결과가 원하던 형식과 다를수 있으므로  
 별도의 후처리 과정을 거쳐 원하는 형식의 결과로 만들어줍니다.
 
+```javaScript
+const extractKoreanWord = (text) => {
+    const match = text.match(/[가-힣]+/g);
+    return match ? match[0] : null;
+  };
+```
 
 ## Flow & UI
 
