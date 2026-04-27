@@ -125,7 +125,15 @@ ollama run llama3
 
 ### 외부 API 연동
 
+> 카카오 책 검색 API에 기반하여 도서 정보를 제공합니다.
+
+- Kakao Book Search API: 책 검색
+
 ### Ollama AI
+
+> Ollama의 Llama3 모델을 사용하여
+> 로컬에서 LLM 서버를 돌립니다.
+
 
 ## Flow & UI
 
