@@ -245,6 +245,9 @@ $border-radius: 12px;
   }
 }
 @media (max-width: 768px) {
+  .userStatistics {
+    flex-direction: column;
+  }
   .react-calendar {
     width: 100%;
     height: auto;
