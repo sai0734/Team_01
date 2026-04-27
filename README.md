@@ -5,8 +5,7 @@
 저희 프로젝트는 단순한 추천이 아니라  
 **사용자의 맥락(Context)을 이해하는 추천 시스템**을 목표로 합니다.
 
-사용자의 고민 + 과거 메모 데이터를 함께 분석하여  
-LLM이 핵심 주제를 추출하고,  
+사용자의 입력한 기분 또는 고민을 AI가 분석하여   
 이를 실제 도서 검색 API와 연결하여 결과를 제공합니다.
 
 기존의 독서 기록 애플리케이션들은 기록, 통계화에 중점을 두어  
@@ -17,14 +16,13 @@ LLM이 핵심 주제를 추출하고,
 - 개인 노트/메모 기반 분석
 - 컨텍스트 기반 추천 시스템
 
-
 ## 팀원 & 역할 분담
 
 | 이름 | GitHub | 역할 |
 |---|---|:--|
-| 황용현 <br> (팀장) | [@sai0734](https://github.com/sai0734) | 전역 Store 데이터관리 (Zustand) <br/> 외부 API 연동 ( Kakao Book Search API) <br/> CRUD 구성 <br/> 커스텀훅 설정 |
+| 황용현 <br> (팀장) | [@sai0734](https://github.com/sai0734) | 전역 Store 데이터관리 (Zustand) <br/> 외부 API 연동 ( Kakao Book Search API) <br/> CRUD 구성 <br/> 커스텀훅 구현 |
 | 양정훈 | [@yangjeonghun-997](https://github.com/yangjeonghun-997) | SPA 구성 (Router, lazy, Suspense) <br/> 외부 API 연동 ( Kakao Book Search API) <br/> 무한 스크롤 |
-| 김지희 | [@JeeheeK1013](https://github.com/JeeheeK1013) | 역할 |
+| 김지희 | [@JeeheeK1013](https://github.com/JeeheeK1013) | 외부 API 연동 ( Kakao Book Search API) |
 
 [팀 노션](https://www.notion.so/Team_01-348530c3f88b804cad05d8ad4806b925)
 
@@ -76,14 +74,10 @@ ollama run llama3
 
 ### CRUD 기능
 
-> 사용자가 직접 책을 서재에 등록, 삭제할 수 있고  
-> 책에 대해 자유롭게 노트를 등록, 수정, 삭제 할 수 있도록 구현했습니다.
+> Store에 있는 bookList(서재)라는 배열에 데이터를 추가 및 삭제할 수 있다.
 
-- 서재에 책 등록, 삭제 (책 상태, 읽은 날짜, 별점 입력 가능)
-- 각 책에 대한 노트 작성
-- 서재에서 조회 가능
-- 노트 수정 및 즉시 반영
-- 서재에서 책 제거 및 노트 삭제 기능
+- 서재에 책 등록할 때 여러가지 값을 추가할 수 있다. (책 상태, 읽은 날짜, 별점 입력 가능)
+- 각 책에 대한 메모를 등록, 수정, 삭제
 
 | 등록(Create) / 조회(Read) / 수정(Update) | 삭제(Delete) |
 | --- | --- |
